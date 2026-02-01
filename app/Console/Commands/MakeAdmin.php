@@ -12,7 +12,10 @@ class MakeAdmin extends Command
     public function __construct(
         protected UserService $service,
         protected UserRepositoryInterface $users
-    ) {}
+    )
+    {
+        parent::__construct();
+    }
 
     /**
      * The name and signature of the console command.
