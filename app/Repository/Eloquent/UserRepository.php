@@ -41,4 +41,9 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    public function index(): Collection
+    {
+        return User::all();
+    }
 }

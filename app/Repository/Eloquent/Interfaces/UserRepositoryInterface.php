@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface UserRepositoryInterface
 {
+    public function index(): Collection;
     public function findById(int $id): ?User;
     public function findByEmail(string $email): ?User;
     public function create(array $data): User;
