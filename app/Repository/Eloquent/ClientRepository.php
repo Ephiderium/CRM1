@@ -38,7 +38,7 @@ class ClientRepository implements ClientRepositoryInterface
         return Client::create($data);
     }
 
-    public function findById(int $id): Client
+    public function findById(int $id): ?Client
     {
         return Client::find($id);
     }

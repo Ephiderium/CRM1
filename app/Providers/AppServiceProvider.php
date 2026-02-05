@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\DealStage;
+use App\Listeners\AuditDealStages;
 use App\Repository\Eloquent\Interfaces\UserRepositoryInterface;
 use App\Repository\Eloquent\UserRepository;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
 
@@ -36,5 +39,11 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void {}
+    public function boot(): void
+    {
+        Event::listen(
+            DealStage::class,
+            AuditDealStages::class,
+        );
+    }
 }
