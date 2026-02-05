@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $path = app_path('Repositories');
+        $path = app_path('Repository/Eloquent');
 
         if (File::exists($path)) {
             $repositories = File::files($path);
@@ -23,9 +23,8 @@ class AppServiceProvider extends ServiceProvider
 
                 $string = $file->getFilenameWithoutExtension();
                 $result = preg_replace('/Repository$/', '', $string);
-                $nameInterface = 'App\\Repositories\\Interfaces\\' . $result . 'RepositoryInterface';
-                $nameRepository = 'App\\Repositories\\' . $result . 'Repository';
-
+                $nameInterface = 'App\\Repository\\Eloquent\\Interfaces\\' . $result . 'RepositoryInterface';
+                $nameRepository = 'App\\Repository\\Eloquent\\' . $result . 'Repository';
                 $this->app->bind(
                     $nameInterface,
                     $nameRepository,
@@ -37,8 +36,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-
-    }
+    public function boot(): void {}
 }
