@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Events\DealStage;
+use App\Observers\AuditObserver;
 use App\Repository\Eloquent\Interfaces\DealRepositoryInterface;
 
 
 class DealService
 {
     public function __construct(
-        protected DealRepositoryInterface $deals
+        protected DealRepositoryInterface $deals,
+        protected AuditObserver $obs,
     ) {}
 
     public function index()
@@ -34,18 +36,37 @@ class DealService
 
     public function create(array $data)
     {
-        return $this->deals->create($data);
+        $model = $this->deals->create($data);
+        $this->obs->delete($model);
+
+        return $model;
     }
 
     public function update(int $id, array $data)
     {
-        return $this->deals->update($id, $data);
+        if (!$this->deals->findById($id)) {
+            return null;
+        }
+
+        $model = $this->deals->update($id, $data);
+        $this->obs->update($model);
+
+        return $model;
     }
 
     public function delete(int $id): bool
     {
+        $model = $this->deals->findById($id);
+
+        if(!$model) {
+            return false;
+        }
+
+        $this->obs->delete($model);
+
         return $this->deals->delete($id);
     }
+
     public function changeStage(int $id, string $stage)
     {
         $deal = $this->deals->changeStage($id, $stage);
@@ -63,6 +84,9 @@ class DealService
 
     public function changeAmount(int $id, int $amount)
     {
-        return $this->deals->changeAmount($id, $amount);
+        $model = $this->deals->changeAmount($id, $amount);
+        $this->obs->update($model);
+
+        return $model;
     }
 }

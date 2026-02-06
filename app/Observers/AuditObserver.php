@@ -23,6 +23,11 @@ class AuditObserver
         $this->log('delete', $model);
     }
 
+    public function forceDelete(Model $model): void
+    {
+        $this->log('force_delete', $model);
+    }
+
     protected function log(string $event, Model $model)
     {
         $changes = match ($event) {
@@ -35,6 +40,10 @@ class AuditObserver
                 'new' => $model->getChanges(),
             ],
             'delete' => [
+                'old' => $model->getOriginal(),
+                'new' => null,
+            ],
+            'force_delete' => [
                 'old' => $model->getOriginal(),
                 'new' => null,
             ],

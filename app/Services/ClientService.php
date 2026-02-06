@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Models\Client;
+use App\Observers\AuditObserver;
 use App\Repository\Eloquent\ClientRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class ClientService
 {
     public function __construct(
-        protected ClientRepository $clients
+        protected ClientRepository $clients,
+        protected AuditObserver $obs,
     ) {}
 
     public function index($request): ?Collection
@@ -19,7 +21,10 @@ class ClientService
 
     public function create(array $data)
     {
-        return $this->clients->create($data);
+        $model =  $this->clients->create($data);
+        $this->obs->create($model);
+
+        return $model;
     }
 
     public function findByEmail(string $email)
@@ -33,16 +38,35 @@ class ClientService
             return null;
         }
 
-        return $this->clients->update($id, $data);
+        $model = $this->clients->update($id, $data);
+        $this->obs->update($model);
+
+        return $model;
     }
 
     public function delete(int $id): bool
     {
+        $model = $this->clients->findById($id);
+
+        if(!$model) {
+            return false;
+        }
+
+        $this->obs->delete($model);
+
         return $this->clients->delete($id);
     }
 
     public function forceDelete(int $id): bool
     {
+        $model = $this->clients->findById($id);
+
+        if(!$model) {
+            return false;
+        }
+
+        $this->obs->forceDelete($model);
+
         return $this->clients->forceDelete($id);
     }
 
@@ -58,7 +82,7 @@ class ClientService
             return null;
         }
 
-        $client->refresh();
+        $this->obs->update($client);
 
         return $client;
     }
