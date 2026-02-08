@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
+    protected $guarded = [];
+
     public static function findOrCreate(string $name, string $guardName): ?Role
     {
         if (!self::where('name', $name)->first()) {

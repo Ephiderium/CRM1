@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('related_id');
             $table->dateTime('due_date')
                 ->comment('deadline');
-            $table->enum('status', ['New', 'in Progress', 'Done', 'Overdue']);
+            $table->enum('status', ['new', 'progress', 'done', 'overdue']);
             $table->timestamps();
         });
     }

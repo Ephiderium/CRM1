@@ -69,6 +69,13 @@ class DealService
 
     public function changeStage(int $id, string $stage)
     {
+        $deal = $this->deals->findById($id);
+        $amount = $deal->amount;
+
+        if ($amount <= 0 && $stage === 'won') {
+            return null;
+        }
+
         $deal = $this->deals->changeStage($id, $stage);
 
         if (!$deal) {
@@ -76,8 +83,8 @@ class DealService
         } else {
             event(new DealStage(
                 deal_id: $deal->id,
-                oldValue: $deal->stage,
-                newValue: $stage,
+                oldValue: ['oldStage' => $deal->stage],
+                newValue: ['newStage' => $stage],
             ));
         }
     }

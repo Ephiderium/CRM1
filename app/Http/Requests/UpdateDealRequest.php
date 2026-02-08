@@ -25,7 +25,7 @@ class UpdateDealRequest extends FormRequest
             'client_id' => 'nullable|exists:clients,id',
             'manager_id' => 'nullable|exists:users,id',
             'amount' => 'nullable|numeric|min:0',
-            'stage' => 'nullable|in:new,in_progress,won,lost',
+            'stage' => 'required|in:new,progress,won,lost',
             'expacted_close_date' => 'nullable|string',
         ];
     }

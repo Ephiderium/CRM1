@@ -16,4 +16,5 @@ interface TaskRepositoryInterface
     public function changeDeadline(int $id, string $date): Task;
     public function changeStatus(int $id, string $status): Task;
     public function changeRelated(int $id, int $relatedId, string $relatedType): Task;
+    public function deadline(): void;
 }

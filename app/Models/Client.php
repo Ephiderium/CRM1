@@ -12,6 +12,8 @@ class Client extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = [];
+
     public function manager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'manager_id');

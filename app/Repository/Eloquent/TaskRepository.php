@@ -76,4 +76,11 @@ class TaskRepository implements TaskRepositoryInterface
 
         return $task;
     }
+
+    public function deadline(): void
+    {
+        $overdues = Task::where('due_date', '<=', now())
+        ->when('status', '!=', 'overdue')
+        ->update(['status' => 'overdue']);
+    }
 }

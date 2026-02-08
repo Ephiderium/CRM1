@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class DealStage
+class ChangeAssigned
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -18,7 +18,7 @@ class DealStage
      * Create a new event instance.
      */
     public function __construct(
-        public int $deal_id,
+        public int $task_id,
         public ?array $oldValue = null,
         public ?array $newValue = null,
     ) {}

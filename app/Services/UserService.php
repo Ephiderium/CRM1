@@ -68,4 +68,33 @@ class UserService
 
         return true;
     }
+    public function index()
+    {
+        return $this->users->index();
+    }
+
+    public function findById(int $id)
+    {
+        return $this->findById($id);
+    }
+
+    public function findByEmail(string $email)
+    {
+        return $this->users->findByEmail($email);
+    }
+
+    public function create(array $data)
+    {
+        return $this->users->create($data);
+    }
+
+    public function update(int $id, array $data)
+    {
+        return $this->update($id, $data);
+    }
+
+    public function deleteById(int $id)
+    {
+        return $this->deleteById($id);
+    }
 }

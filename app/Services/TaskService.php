@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\ChangeAssigned;
+use App\Events\TaskStatus;
 use App\Observers\AuditObserver;
 use App\Repository\Eloquent\Interfaces\ClientRepositoryInterface;
 use App\Repository\Eloquent\Interfaces\DealRepositoryInterface;
@@ -34,6 +36,11 @@ class TaskService
     public function create(array $data)
     {
         $model = $this->task->create($data);
+        event(new ChangeAssigned(
+                task_id: $model->id,
+                oldValue: ['oldValue' => $model->assigned_to],
+                newValue: ['newValue' => $data['assigned_to']],
+            ));
         $this->obs->create($model);
 
         return $model;
@@ -46,6 +53,15 @@ class TaskService
         }
 
         $model = $this->task->update($id, $data);
+
+        if ($data['assigned_to']) {
+            event(new ChangeAssigned(
+                task_id: $id,
+                oldValue: ['oldValue' => $model->assigned_to],
+                newValue: ['newValue' => $data['assigned_to']],
+            ));
+        }
+
         $this->obs->update($model);
 
         return $model;
@@ -55,7 +71,7 @@ class TaskService
     {
         $model = $this->findById($id);
 
-        if(!$model) {
+        if (!$model) {
             return false;
         }
 
@@ -68,8 +84,8 @@ class TaskService
     {
         $model = $this->findById($id);
 
-        if(!$model) {
-            return false;
+        if (!$model) {
+            return null;
         }
 
         $model->update(['due_date' => $date]);
@@ -82,12 +98,16 @@ class TaskService
     {
         $model = $this->findById($id);
 
-        if(!$model) {
-            return false;
+        if (!$model) {
+            return null;
         }
 
         $model->update(['status' => $status]);
-        $this->obs->update($model);
+        event(new TaskStatus(
+            task_id: $model->id,
+            oldValue: ['oldStatus' => $model->status],
+            newValue: ['newStatus' => $status],
+        ));
 
         return $model;
     }
@@ -96,17 +116,34 @@ class TaskService
     {
         $model = $this->findById($id);
 
-        if(!$model) {
+        if (!$model) {
             return false;
         }
 
         $this->task->update($id, [
             'related_id' => $relatedId,
             'related_type' => $relatedType,
-            ]);
+        ]);
         $this->obs->update($model);
 
         return $model;
     }
 
+    public function changeAssigned(int $id, string $assigned)
+    {
+        $model = $this->findById($id);
+
+        if (!$model) {
+            return null;
+        }
+
+        $model->update(['assigned_to' => $assigned]);
+        event(new ChangeAssigned(
+            task_id: $id,
+            oldValue: ['oldValue' => $model->assigned_to],
+            newValue: ['newValue' => $assigned],
+        ));
+
+        return $model;
+    }
 }

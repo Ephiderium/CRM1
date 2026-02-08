@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateDealRequest extends FormRequest
+class UpdateCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class CreateDealRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|exists:clients,id',
-            'manager_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric|min:0',
-            'stage' => 'required|in:new,progress,won,lost',
-            'expacted_close_date' => 'required|string',
+            'user_id' => 'nullable|exists:users,id|integer',
+            'commentable_type' => 'nullable|string',
+            'commentable_id' => 'nullable|integer',
+            'body' => 'nullable|string|min:1',
         ];
     }
 }

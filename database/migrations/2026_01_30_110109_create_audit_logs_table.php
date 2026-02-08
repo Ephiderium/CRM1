@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('action');
             $table->string('entity_type');
             $table->unsignedBigInteger('entity_id');
-            $table->json('old_values');
-            $table->json('new_values');
+            $table->json('old_values')->nullable();
+            $table->json('new_values')->nullable();
             $table->timestamps();
         });
     }

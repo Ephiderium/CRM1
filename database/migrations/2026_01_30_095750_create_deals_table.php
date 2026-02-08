@@ -21,7 +21,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users');
             $table->integer('amount');
-            $table->enum('stage', ['New', 'in Progress', 'Won', 'Lost']);
+            $table->enum('stage', ['new', 'progress', 'won', 'lost']);
             $table->dateTime('expected_close_date');
             $table->timestamps();
         });

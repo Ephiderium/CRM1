@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Deal extends Model
 {
+    protected $guarded = [];
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
