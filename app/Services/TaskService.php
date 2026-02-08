@@ -129,7 +129,7 @@ class TaskService
         return $model;
     }
 
-    public function changeAssigned(int $id, string $assigned)
+    public function changeAssigned(int $id, int $assigned)
     {
         $model = $this->findById($id);
 

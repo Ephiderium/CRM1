@@ -75,7 +75,7 @@ class UserService
 
     public function findById(int $id)
     {
-        return $this->findById($id);
+        return $this->users->findById($id);
     }
 
     public function findByEmail(string $email)
@@ -90,11 +90,11 @@ class UserService
 
     public function update(int $id, array $data)
     {
-        return $this->update($id, $data);
+        return $this->users->update($id, $data);
     }
 
-    public function deleteById(int $id)
+    public function deleteById(int $id): bool
     {
-        return $this->deleteById($id);
+        return $this->users->deleteById($id);
     }
 }
