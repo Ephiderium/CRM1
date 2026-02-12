@@ -4,13 +4,13 @@ namespace App\Repository\Eloquent;
 
 use App\Models\Comment;
 use App\Repository\Eloquent\Interfaces\CommentRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CommentRepository implements CommentRepositoryInterface
 {
-    public function index(): Collection
+    public function index(): LengthAwarePaginator
     {
-        return Comment::all();
+        return Comment::paginate(20);
     }
 
     public function findById(int $id): Comment
@@ -18,9 +18,9 @@ class CommentRepository implements CommentRepositoryInterface
         return Comment::find($id);
     }
 
-    public function findByUser(int $id): Collection
+    public function findByUser(int $id): LengthAwarePaginator
     {
-        return Comment::where('user_id', $id)->get();
+        return Comment::where('user_id', $id)->paginate(20);
     }
 
     public function create(array $data): Comment

@@ -3,11 +3,11 @@
 namespace App\Repository\Eloquent\Interfaces;
 
 use App\Models\Client;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ClientRepositoryInterface
 {
-    public function index($request): Collection;
+    public function index($request): LengthAwarePaginator;
     public function create(array $data): Client;
     public function findById(int $id): ?Client;
     public function findByEmail(string $email): Client;

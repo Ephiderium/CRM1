@@ -49,7 +49,7 @@ class UserController extends Controller
         return new UserResource($this->service->findByEmail($request->validated('email')));
     }
 
-    public function create(CreateUserRequest $request): UserResource
+    public function store(CreateUserRequest $request): UserResource
     {
         return new UserResource($this->service->create($request->validated()));
     }
@@ -59,7 +59,7 @@ class UserController extends Controller
         return new UserResource($this->service->update($id, $request->validated()));
     }
 
-    public function delete(int $id): bool
+    public function destroy(int $id): bool
     {
         return $this->service->deleteById($id);
     }

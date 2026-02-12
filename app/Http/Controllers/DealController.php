@@ -45,7 +45,7 @@ class DealController extends Controller
         return $deal ? new DealResource($this->service->update($id, $request->validated())) : null;
     }
 
-    public function delete(int $id): bool
+    public function destroy(int $id): bool
     {
         return $this->service->delete($id);
     }

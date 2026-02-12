@@ -3,13 +3,13 @@
 namespace App\Repository\Eloquent\Interfaces;
 
 use App\Models\Task;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface TaskRepositoryInterface
 {
-    public function index(): Collection;
+    public function index(): LengthAwarePaginator;
     public function findById(int $id): Task;
-    public function findByUser(int $id): Collection;
+    public function findByUser(int $id): LengthAwarePaginator;
     public function create(array $data): Task;
     public function update(int $id, array $data): Task;
     public function delete(int $id): bool;

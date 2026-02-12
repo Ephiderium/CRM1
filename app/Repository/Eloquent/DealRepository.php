@@ -4,13 +4,13 @@ namespace App\Repository\Eloquent;
 
 use App\Models\Deal;
 use App\Repository\Eloquent\Interfaces\DealRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class DealRepository implements DealRepositoryInterface
 {
-    public function index(): Collection
+    public function index(): LengthAwarePaginator
     {
-        return Deal::all();
+        return Deal::paginate(20);
     }
 
     public function findById(int $id): ?Deal
@@ -18,14 +18,14 @@ class DealRepository implements DealRepositoryInterface
         return Deal::find($id);
     }
 
-    public function findByManager(int $id): Collection
+    public function findByManager(int $id): LengthAwarePaginator
     {
-        return Deal::where('manager_id', $id)->get();
+        return Deal::where('manager_id', $id)->paginate(20);
     }
 
-    public function findByClient(int $id): Collection
+    public function findByClient(int $id): LengthAwarePaginator
     {
-        return Deal::where('client_id', $id)->get();
+        return Deal::where('client_id', $id)->paginate(20);
     }
 
     public function create(array $data): Deal

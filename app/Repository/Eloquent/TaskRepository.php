@@ -4,13 +4,13 @@ namespace App\Repository\Eloquent;
 
 use App\Models\Task;
 use App\Repository\Eloquent\Interfaces\TaskRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TaskRepository implements TaskRepositoryInterface
 {
-    public function index(): Collection
+    public function index(): LengthAwarePaginator
     {
-        return Task::all();
+        return Task::paginate(20);
     }
 
     public function findById(int $id): Task
@@ -18,9 +18,9 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::find($id);
     }
 
-    public function findByUser(int $id): Collection
+    public function findByUser(int $id): LengthAwarePaginator
     {
-        return Task::where('assigned_to', $id)->get();
+        return Task::where('assigned_to', $id)->paginate(20);
     }
 
     public function create(array $data): Task

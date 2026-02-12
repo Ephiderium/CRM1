@@ -33,7 +33,7 @@ class ClientController extends Controller
         return new ClientResource($this->service->update($id, $request->validated()));
     }
 
-    public function delete(int $id): bool
+    public function destroy(int $id): bool
     {
         return $this->service->delete($id);
     }

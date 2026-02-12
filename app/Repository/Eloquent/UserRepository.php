@@ -4,7 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Models\User;
 use App\Repository\Eloquent\Interfaces\UserRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -42,8 +42,8 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function index(): Collection
+    public function index(): LengthAwarePaginator
     {
-        return User::all();
+        return User::paginate(20);
     }
 }

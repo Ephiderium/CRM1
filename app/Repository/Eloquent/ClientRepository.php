@@ -13,10 +13,11 @@ use App\Pipeline\Filters\Client\PhoneFilter;
 use App\Pipeline\Filters\Client\SourceFilter;
 use App\Pipeline\Filters\Client\StatusFilter;
 use App\Pipelines\ClientPipeline;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    public function index($request): Collection
+    public function index($request): LengthAwarePaginator
     {
         $pipeline = new ClientPipeline([
             new CompanyFilter($request),
@@ -28,7 +29,7 @@ class ClientRepository implements ClientRepositoryInterface
             new StatusFilter($request),
         ]);
 
-        $clients = $pipeline->apply(Client::query())->get();
+        $clients = $pipeline->apply(Client::query())->paginate(20);
 
         return $clients;
     }

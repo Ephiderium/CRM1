@@ -3,14 +3,14 @@
 namespace App\Repository\Eloquent\Interfaces;
 
 use App\Models\Deal;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface DealRepositoryInterface
 {
-    public function index(): Collection;
+    public function index(): LengthAwarePaginator;
     public function findById(int $id): ?Deal;
-    public function findByManager(int $id): Collection;
-    public function findByClient(int $id): Collection;
+    public function findByManager(int $id): LengthAwarePaginator;
+    public function findByClient(int $id): LengthAwarePaginator;
     public function create(array $data): Deal;
     public function update(int $id, array $data): Deal;
     public function delete(int $id): bool;
