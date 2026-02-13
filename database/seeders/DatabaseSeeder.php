@@ -2,11 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
+use App\Models\Comment;
+use App\Models\Deal;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
@@ -29,8 +34,8 @@ class DatabaseSeeder extends Seeder
             'users.manage',
         ];
 
-        foreach ($permissions as $permision) {
-            Permission::findOrCreate($permision, 'web');
+        foreach ($permissions as $permission) {
+            Permission::findOrCreate($permission, 'web');
         }
 
         $admin = Role::findOrCreate('admin', 'web');
@@ -58,5 +63,39 @@ class DatabaseSeeder extends Seeder
             'clients.view',
             'deals.view',
         ]);
+
+        $users = User::factory()
+        ->count(5)
+        ->create()
+        ->each->assignRole('admin');
+
+        $users->each(function ($user) {
+            Client::factory()
+                ->count(40)
+                ->for($user, 'manager')
+                ->afterCreating(function (Client $client) {
+                    Comment::factory()
+                    ->count(2)
+                    ->for($client, 'commentable')
+                    ->create();
+                })
+                ->create();
+
+            Deal::factory()
+                ->count(10)
+                ->for($user, 'manager')
+                ->afterCreating(function (Deal $deal) {
+                    Comment::factory()
+                    ->count(2)
+                    ->for($deal, 'commentable')
+                    ->create();
+                })
+                ->create();
+
+            Task::factory()
+                ->count(7)
+                ->for($user, 'assignedTo')
+                ->create();
+        });
     }
 }

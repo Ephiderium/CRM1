@@ -19,7 +19,7 @@ class Role extends Model
 
             return $model;
         } else {
-            return null;
+            return self::where('name', $name)->first();
         }
     }
 
@@ -27,7 +27,7 @@ class Role extends Model
     {
         foreach ($permissions as $permission) {
             $id = Permission::where('name', $permission)->first()->id;
-            $this->permissions()->attach($id);
+            $this->permissions()->sync($id);
         }
     }
 

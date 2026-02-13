@@ -19,7 +19,7 @@ class Permission extends Model
 
             return $model;
         } else {
-            return null;
+            return self::where('name', $name)->first();
         }
     }
 

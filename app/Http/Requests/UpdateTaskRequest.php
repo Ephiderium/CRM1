@@ -25,7 +25,7 @@ class UpdateTaskRequest extends FormRequest
             'title' => 'nullable|string|min:2',
             'description' => 'nullable|string|min:2',
             'assigned_to' => 'nullable|integer|exists:users,id',
-            'related_type' => 'nullable|string',
+            'related_type' => 'nullable|string|in:client,deal',
             'related_id' => 'nullable|integer',
             'due_date' => 'nullable|string',
             'status' => 'nullable|in:new,progress,done,overdue',

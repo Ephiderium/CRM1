@@ -25,7 +25,7 @@ class CreateTaskRequest extends FormRequest
             'title' => 'required|string|min:2',
             'description' => 'required|string|min:2',
             'assigned_to' => 'required|integer|exists:users,id',
-            'related_type' => 'required|string',
+            'related_type' => 'required|string|in:client,deal',
             'related_id' => 'required|integer',
             'due_date' => 'required|string',
             'status' => 'required|in:new,progress,done,overdue',

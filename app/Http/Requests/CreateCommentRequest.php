@@ -23,7 +23,7 @@ class CreateCommentRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id|integer',
-            'commentable_type' => 'required|string',
+            'commentable_type' => 'required|string|in:client,deal',
             'commentable_id' => 'required|integer',
             'body' => 'required|string|min:1',
         ];

@@ -23,7 +23,7 @@ class UpdateCommentRequest extends FormRequest
     {
         return [
             'user_id' => 'nullable|exists:users,id|integer',
-            'commentable_type' => 'nullable|string',
+            'commentable_type' => 'nullable|string|in:client,deal',
             'commentable_id' => 'nullable|integer',
             'body' => 'nullable|string|min:1',
         ];
