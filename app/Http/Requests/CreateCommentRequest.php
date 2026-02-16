@@ -22,9 +22,7 @@ class CreateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id|integer',
-            'commentable_type' => 'required|string|in:client,deal',
-            'commentable_id' => 'required|integer',
+            'user_id' => 'nullable|exists:users,id|integer',
             'body' => 'required|string|min:1',
         ];
     }

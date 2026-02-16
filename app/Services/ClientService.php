@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Observers\AuditObserver;
 use App\Repository\Eloquent\ClientRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientService
 {
@@ -14,7 +15,7 @@ class ClientService
         protected AuditObserver $obs,
     ) {}
 
-    public function index($request): ?Collection
+    public function index($request): LengthAwarePaginator
     {
         return $this->clients->index($request);
     }

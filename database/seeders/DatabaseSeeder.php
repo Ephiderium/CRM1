@@ -23,46 +23,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
-
-        $permissions = [
-            'clients.view',
-            'clients.edit',
-            'deals.view',
-            'deals.edit',
-            'tasks.manage',
-            'users.manage',
-        ];
-
-        foreach ($permissions as $permission) {
-            Permission::findOrCreate($permission, 'web');
-        }
-
-        $admin = Role::findOrCreate('admin', 'web');
-        $admin->syncPermissions($permissions);
-
-        $manager = Role::findOrCreate('manager', 'web');
-        $manager->syncPermissions([
-            'clients.view',
-            'clients.edit',
-            'deals.view',
-            'deals.edit',
-            'tasks.manage',
-        ]);
-
-        $user = Role::findOrCreate('user', 'web');
-        $user->syncPermissions([
-            'clients.view',
-            'clients.edit',
-            'deals.view',
-            'deals.edit',
-        ]);
-
-        $viewer = Role::findOrCreate('viewer', 'web');
-        $viewer->syncPermissions([
-            'clients.view',
-            'deals.view',
-        ]);
+        $this->call(PermissionSeeder::class);
 
         $users = User::factory()
         ->count(5)
@@ -74,9 +35,11 @@ class DatabaseSeeder extends Seeder
                 ->count(40)
                 ->for($user, 'manager')
                 ->afterCreating(function (Client $client) {
-                    Comment::factory()
+                    Comment::factory([
+                        'commentable_id' => $client->id,
+                        'commentable_type' => 'client',
+                    ])
                     ->count(2)
-                    ->for($client, 'commentable')
                     ->create();
                 })
                 ->create();
@@ -85,7 +48,10 @@ class DatabaseSeeder extends Seeder
                 ->count(10)
                 ->for($user, 'manager')
                 ->afterCreating(function (Deal $deal) {
-                    Comment::factory()
+                    Comment::factory([
+                        'commentable_id' => $deal->id,
+                        'commentable_type' => 'deal',
+                    ])
                     ->count(2)
                     ->for($deal, 'commentable')
                     ->create();

@@ -26,8 +26,8 @@ class CreateClientRequest extends FormRequest
             'email' => 'email|required',
             'phone' => 'string|required|unique:clients,email',
             'company' => 'string|required',
-            'source' => 'string|required,in:advertising,call,site',
-            'manager_id' => 'integer|required|exists:users,id',
+            'source' => 'string|required|in:advertising,call,site',
+            'manager_id' => 'integer|nullable|exists:users,id',
             'status' => 'string|required|in:new,active,archived'
         ];
     }

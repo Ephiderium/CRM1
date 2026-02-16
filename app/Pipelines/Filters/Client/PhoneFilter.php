@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Pipeline\Filters\Client;
+namespace App\Pipelines\Filters\Client;
 
-use App\Pipeline\Filters\FilterInterface;
+use App\Pipelines\Filters\FilterInterface;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 

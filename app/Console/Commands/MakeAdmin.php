@@ -23,8 +23,8 @@ class MakeAdmin extends Command
      * @var string
      */
     protected $signature = 'app:make-admin
-                            {email: Email Administrator}
-                            {password: Password Administrator}';
+                            {email : Email Administrator}
+                            {password : Password Administrator}';
 
     /**
      * The console command description.
@@ -42,6 +42,7 @@ class MakeAdmin extends Command
             'name' => 'admin',
             'email' => $this->argument('email'),
             'password' => Hash::make($this->argument('password')),
+            'is_active' => true,
         ];
         if (!$this->users->findByEmail($data['email'])) {
             $this->service->createAdmin($data);

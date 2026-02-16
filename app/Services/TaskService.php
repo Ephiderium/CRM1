@@ -54,7 +54,7 @@ class TaskService
 
         $model = $this->task->update($id, $data);
 
-        if ($data['assigned_to']) {
+        if (isset($data['assigned_to'])) {
             event(new ChangeAssigned(
                 task_id: $id,
                 oldValue: ['oldValue' => $model->assigned_to],

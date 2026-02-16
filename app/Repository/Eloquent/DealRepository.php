@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Models\Comment;
 use App\Models\Deal;
 use App\Repository\Eloquent\Interfaces\DealRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -66,4 +67,13 @@ class DealRepository implements DealRepositoryInterface
         return $deal;
     }
 
+    public function createComment(int $id, array $data): ?Comment
+    {
+        $model = Deal::find($id);
+        $model->comments()->create($data);
+
+        return Comment::where('body', $data['body'])
+            ->where('user_id', $data['user_id'])
+            ->first();
+    }
 }

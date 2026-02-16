@@ -3,15 +3,16 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\Client;
+use App\Models\Comment;
 use App\Repository\Eloquent\Interfaces\ClientRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use App\Pipeline\Filters\Client\CompanyFilter;
-use App\Pipeline\Filters\Client\EmailFilter;
-use App\Pipeline\Filters\Client\ManagerFilter;
-use App\Pipeline\Filters\Client\NameFilter;
-use App\Pipeline\Filters\Client\PhoneFilter;
-use App\Pipeline\Filters\Client\SourceFilter;
-use App\Pipeline\Filters\Client\StatusFilter;
+use App\Pipelines\Filters\Client\CompanyFilter;
+use App\Pipelines\Filters\Client\EmailFilter;
+use App\Pipelines\Filters\Client\ManagerFilter;
+use App\Pipelines\Filters\Client\NameFilter;
+use App\Pipelines\Filters\Client\PhoneFilter;
+use App\Pipelines\Filters\Client\SourceFilter;
+use App\Pipelines\Filters\Client\StatusFilter;
 use App\Pipelines\ClientPipeline;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -76,5 +77,15 @@ class ClientRepository implements ClientRepositoryInterface
         $callback($builder);
 
         return $builder->get();
+    }
+
+    public function createComment(int $id, array $data): ?Comment
+    {
+        $model = Client::find($id);
+        $model->comments()->create($data);
+
+        return Comment::where('body', $data['body'])
+            ->where('user_id', $data['user_id'])
+            ->first();
     }
 }

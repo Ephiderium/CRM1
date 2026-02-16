@@ -3,12 +3,16 @@
 namespace App\Services;
 
 use App\Observers\AuditObserver;
+use App\Repository\Eloquent\Interfaces\ClientRepositoryInterface;
 use App\Repository\Eloquent\Interfaces\CommentRepositoryInterface;
+use App\Repository\Eloquent\Interfaces\DealRepositoryInterface;
 
 class CommentService
 {
     public function __construct(
         protected CommentRepositoryInterface $comments,
+        protected DealRepositoryInterface $deals,
+        protected ClientRepositoryInterface $clients,
         protected AuditObserver $obs,
     ) {}
 
@@ -27,9 +31,13 @@ class CommentService
         return $this->comments->findByUser($id);
     }
 
-    public function create(array $data)
+    public function create(int $id, string $instance, array $data)
     {
-        $model = $this->comments->create($data);
+        $model = match($instance) {
+            'deal' => $this->deals->createComment($id, $data),
+            'client' => $this->clients->createComment($id, $data),
+        };
+
         $this->obs->create($model);
 
         return $model;

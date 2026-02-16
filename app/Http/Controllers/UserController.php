@@ -8,59 +8,91 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function __construct(protected UserService $service) {}
 
-    public function createAdmin(CreateUserRequest $request): UserResource
+    public function changePassword(ResetPasswordRequest $request): bool|JsonResponse
     {
-        return new UserResource($this->service->createAdmin($request->validated()));
+        try {
+            return $this->service->changePassword($request);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'changePassword: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function changePassword(ResetPasswordRequest $request): bool
+    public function disableUser(UpdateUserRequest $request): bool|JsonResponse
     {
-        return $this->service->changePassword($request);
+        try {
+            return $this->service->disableUser($request->validated('email'));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'disableUser: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function disableUser(UpdateUserRequest $request): bool
+    public function changeRole(ChangeRoleRequest $request): bool|JsonResponse
     {
-        return $this->service->disableUser($request->validated('email'));
+        try {
+            return $this->service->changeRole($request->validated());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'changeRole: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function changeRole(ChangeRoleRequest $request): bool
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        return $this->service->changeRole($request->validated());
+        try {
+            return UserResource::collection($this->service->index());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function index()
+    public function find(int $id): UserResource|JsonResponse
     {
-        return UserResource::collection($this->service->index());
+        try {
+            return new UserResource($this->service->findById($id));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'find: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function find(int $id): UserResource
+    public function findByEmail(UpdateUserRequest $request): UserResource|JsonResponse
     {
-        return new UserResource($this->service->findById($id));
+        try {
+            return new UserResource($this->service->findByEmail($request->validated('email')));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function findByEmail(UpdateUserRequest $request): UserResource
+    public function store(CreateUserRequest $request): UserResource|JsonResponse
     {
-        return new UserResource($this->service->findByEmail($request->validated('email')));
+        try {
+            return new UserResource($this->service->create($request->validated()));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function store(CreateUserRequest $request): UserResource
+    public function update(int $id, UpdateUserRequest $request): UserResource|JsonResponse
     {
-        return new UserResource($this->service->create($request->validated()));
+        try {
+            return new UserResource($this->service->update($id, $request->validated()));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function update(int $id, UpdateUserRequest $request): UserResource
+    public function destroy(int $id): bool|JsonResponse
     {
-        return new UserResource($this->service->update($id, $request->validated()));
-    }
-
-    public function destroy(int $id): bool
-    {
-        return $this->service->deleteById($id);
+        try {
+            return $this->service->deleteById($id);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+        }
     }
 }

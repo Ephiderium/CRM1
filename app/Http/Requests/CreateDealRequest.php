@@ -22,11 +22,11 @@ class CreateDealRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|exists:clients,id',
-            'manager_id' => 'required|exists:users,id',
+            'client_id' => 'nullable|exists:clients,id',
+            'manager_id' => 'nullable|exists:users,id',
             'amount' => 'required|numeric|min:0',
             'stage' => 'required|in:new,progress,won,lost',
-            'expacted_close_date' => 'required|string',
+            'expected_close_date' => 'required|string',
         ];
     }
 }

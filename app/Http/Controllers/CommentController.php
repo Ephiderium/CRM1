@@ -3,42 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Services\CommentService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
     public function __construct(protected CommentService $service) {}
 
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        return CommentResource::collection($this->service->index());
+        try {
+            return CommentResource::collection($this->service->index());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function find(int $id): CommentResource
+    public function find(int $id): CommentResource|JsonResponse
     {
-        return new CommentResource($this->service->findById($id));
+        try {
+            return new CommentResource($this->service->findById($id));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'find: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function findByUser(int $id)
+    public function findByUser(int $id): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        return CommentResource::collection($this->service->findByUser($id));
+        try {
+            return CommentResource::collection($this->service->findByUser($id));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'findByUser: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function create(CreateCommentRequest $request): CommentResource
+    public function store(int $id, string $instance, CreateCommentRequest $request): CommentResource|JsonResponse
     {
-        return new CommentResource($this->service->create($request->validated()));
+        try {
+            return new CommentResource($this->service->create($id, $instance, $request->validated()));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function update(int $id, CreateCommentRequest $request): ?CommentResource
+    public function update(int $id, UpdateCommentRequest $request): CommentResource|JsonResponse|null
     {
-        $comment = $this->service->findById($id);
-        return $comment ? new CommentResource($this->service->update($id, $request->validated())) : null;
+        try {
+            return new CommentResource($this->service->update($id, $request->validated()));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function destroy(int $id): bool
+    public function destroy(int $id): bool|JsonResponse
     {
-        return $this->service->delete($id);
+        try {
+            return $this->service->delete($id);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+        }
     }
 }

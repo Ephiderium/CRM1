@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipeline\Filters;
+namespace App\Pipelines\Filters;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;

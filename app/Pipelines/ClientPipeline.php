@@ -3,7 +3,6 @@
 namespace App\Pipelines;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Pipeline;
 
 class ClientPipeline
 {
@@ -16,7 +15,7 @@ class ClientPipeline
 
     public function apply(Builder $builder): Builder
     {
-        return app(Pipeline::class)
+        return app(\Illuminate\Pipeline\Pipeline::class)
             ->send($builder)
             ->through($this->filters)
             ->thenReturn();

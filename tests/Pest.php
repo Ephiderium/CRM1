@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 pest()->extend(Tests\TestCase::class)
   ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
@@ -45,3 +47,7 @@ function something()
 {
     // ..
 }
+
+uses(RefreshDatabase::class)->beforeEach(function () {
+    $this->seed(\Database\Seeders\PermissionSeeder::class);
+})->in('Feature');

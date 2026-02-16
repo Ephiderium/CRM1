@@ -56,8 +56,8 @@ class UserService
         $user->syncRoles([]);
         $user->syncPermissions([]);
         app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
-        Auth::logout();
-
+        $user->currentAccessToken()?->delete();
+        $this->users->update($user->id, ['is_active' => false]);
         return true;
     }
 

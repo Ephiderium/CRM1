@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->enum('commentable_type', ['client', 'deal']);
+            $table->string('commentable_type');
             $table->unsignedBigInteger('commentable_id');
             $table->text('body');
             $table->timestamps();

@@ -87,6 +87,8 @@ class DealService
                 newValue: ['newStage' => $stage],
             ));
         }
+
+        return $deal;
     }
 
     public function changeAmount(int $id, int $amount)

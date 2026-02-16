@@ -19,3 +19,4 @@ class ExelController extends Controller
         return Excel::download();
     }
 }
+

@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent\Interfaces;
 
+use App\Models\Comment;
 use App\Models\Deal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -16,4 +17,5 @@ interface DealRepositoryInterface
     public function delete(int $id): bool;
     public function changeStage(int $id, string $stage): ?Deal;
     public function changeAmount(int $id, int $amount): ?Deal;
+    public function createComment(int $id, array $data);
 }

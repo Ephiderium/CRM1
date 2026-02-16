@@ -3,6 +3,7 @@
 namespace App\Repository\Eloquent\Interfaces;
 
 use App\Models\Client;
+use App\Models\Comment;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ClientRepositoryInterface
@@ -14,4 +15,5 @@ interface ClientRepositoryInterface
     public function update(int $id, array$data): Client;
     public function delete(int $id): bool;
     public function forceDelete(int $id): bool;
+    public function createComment(int $id, array $data): ?Comment;
 }
