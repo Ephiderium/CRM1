@@ -24,7 +24,7 @@ class CreateDealRequest extends FormRequest
         return [
             'client_id' => 'nullable|exists:clients,id',
             'manager_id' => 'nullable|exists:users,id',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|integer|min:0',
             'stage' => 'required|in:new,progress,won,lost',
             'expected_close_date' => 'required|string',
         ];

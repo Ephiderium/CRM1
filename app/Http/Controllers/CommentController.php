@@ -27,7 +27,7 @@ class CommentController extends Controller
         try {
             return new CommentResource($this->service->findById($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
         }
     }
 
@@ -36,16 +36,18 @@ class CommentController extends Controller
         try {
             return CommentResource::collection($this->service->findByUser($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'findByUser: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'findByUser: ' . $e->getMessage()], 404);
         }
     }
 
     public function store(int $id, string $instance, CreateCommentRequest $request): CommentResource|JsonResponse
     {
         try {
-            return new CommentResource($this->service->create($id, $instance, $request->validated()));
+            $data = $request->validated();
+            $data['user_id'] = $request->user();
+            return new CommentResource($this->service->create($id, $instance, $data));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
         }
     }
 
@@ -54,7 +56,7 @@ class CommentController extends Controller
         try {
             return new CommentResource($this->service->update($id, $request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
         }
     }
 
@@ -63,7 +65,7 @@ class CommentController extends Controller
         try {
             return $this->service->delete($id);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
         }
     }
 }

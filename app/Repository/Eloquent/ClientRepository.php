@@ -82,7 +82,7 @@ class ClientRepository implements ClientRepositoryInterface
     public function createComment(int $id, array $data): ?Comment
     {
         $model = Client::find($id);
-        $model->comments()->create($data);
+        $model->comments()->create();
 
         return Comment::where('body', $data['body'])
             ->where('user_id', $data['user_id'])

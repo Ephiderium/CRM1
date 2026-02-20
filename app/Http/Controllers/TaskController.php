@@ -28,7 +28,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->findById($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
         }
     }
 
@@ -37,7 +37,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->findByUser($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'findByUser: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'findByUser: ' . $e->getMessage()], 404);
         }
     }
 
@@ -46,7 +46,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->create($request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
         }
     }
 
@@ -55,7 +55,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->update($id, $request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+            return response()->json(422);
         }
     }
 
@@ -64,7 +64,7 @@ class TaskController extends Controller
         try {
             return $this->service->delete($id);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
         }
     }
 
@@ -73,7 +73,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->changeDeadline($id, $request->validated('due_date')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeDeadline: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeDeadline: ' . $e->getMessage()], 404);
         }
     }
 
@@ -82,7 +82,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->changeStatus($id, $request->validated('status')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeStatus: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeStatus: ' . $e->getMessage()], 422);
         }
     }
 
@@ -92,7 +92,7 @@ class TaskController extends Controller
             return new TaskResource($this->service
                 ->changeRelated($id, $request->validated('related_id'), $request->validated('related_type')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeRelated: ' . $e->getMessage()], 500);
+            return response()->json(422);
         }
     }
 
@@ -101,7 +101,7 @@ class TaskController extends Controller
         try {
             return new TaskResource($this->service->changeAssigned($id, $request->validated('assigned_to')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeAssigned: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeAssigned: ' . $e->getMessage()], 422);
         }
     }
 }

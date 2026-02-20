@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -20,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/index', [UserController::class, 'index']);
         Route::get('/{id}', [UserController::class, 'find']);
         Route::post('/by-email', [UserController::class, 'findByEmail']);
-        Route::post('/', [UserController::class, 'store']);
+        Route::post('/', [UserController::class, 'store'])->name('user.store');
         Route::patch('/update/{id}', [UserController::class, 'update']);
         Route::delete('/{id}', [UserController::class, 'destroy']);
     });
@@ -68,4 +69,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/force-delete/{id}', [ClientController::class, 'forceDelete']);
         Route::patch('/manager/{clientId}/{managerId}', [ClientController::class, 'changeManager']);
     });
+
+    Route::get('/export-tables', [ExcelController::class, 'exportTables']);
+    Route::get('/export-log', [ExcelController::class, 'exportLog']);
+    Route::post('/import-clients', [ExcelController::class, 'importClients']);
 });

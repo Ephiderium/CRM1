@@ -29,7 +29,7 @@ class UserController extends Controller
         try {
             return $this->service->disableUser($request->validated('email'));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'disableUser: ' . $e->getMessage()], 500);
+            return response()->json(404);
         }
     }
 
@@ -38,7 +38,7 @@ class UserController extends Controller
         try {
             return $this->service->changeRole($request->validated());
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeRole: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeRole: ' . $e->getMessage()], 422);
         }
     }
 
@@ -56,7 +56,7 @@ class UserController extends Controller
         try {
             return new UserResource($this->service->findById($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
         }
     }
 
@@ -65,16 +65,16 @@ class UserController extends Controller
         try {
             return new UserResource($this->service->findByEmail($request->validated('email')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 404);
         }
     }
 
     public function store(CreateUserRequest $request): UserResource|JsonResponse
     {
         try {
-            return new UserResource($this->service->create($request->validated()));
+            return new UserResource($this->service->createUser($request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+            return response()->json(422);
         }
     }
 
@@ -83,7 +83,7 @@ class UserController extends Controller
         try {
             return new UserResource($this->service->update($id, $request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
         }
     }
 
@@ -92,7 +92,7 @@ class UserController extends Controller
         try {
             return $this->service->deleteById($id);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
         }
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
+use App\Events\UserRegisteredEvent;
 use App\Models\Client;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 
 test('createAdmin', function () {
     $user = User::factory()->user('admin');
@@ -74,14 +76,17 @@ test('findByEmail', function () {
 test('store', function () {
     $user = User::factory()->user('admin');
     $token = $user->createToken('test')->plainTextToken;
+    Event::fake();
     $data = [
         'name' => 'testss',
         'email' => 'tt@test.com',
         'password' => '1testw12222',
         'is_active' => true,
+        'role' => 'manager',
     ];
     $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users/', $data);
 
+    Event::assertDispatched(UserRegisteredEvent::class);
     $response->assertStatus(201);
 });
 

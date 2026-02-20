@@ -29,7 +29,7 @@ class DealController extends Controller
         try {
             return new DealResource($this->service->findById($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
         }
     }
 
@@ -38,7 +38,7 @@ class DealController extends Controller
         try {
             return DealResource::collection($this->service->findByManager($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'findByManager: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'findByManager: ' . $e->getMessage()], 404);
         }
     }
 
@@ -47,7 +47,7 @@ class DealController extends Controller
         try {
             return DealResource::collection($this->service->findByClient($id));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'findByClient: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'findByClient: ' . $e->getMessage()], 404);
         }
     }
 
@@ -56,7 +56,7 @@ class DealController extends Controller
         try {
             return new DealResource($this->service->create($request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
         }
     }
 
@@ -65,7 +65,7 @@ class DealController extends Controller
         try {
             return new DealResource($this->service->update($id, $request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
         }
     }
 
@@ -74,7 +74,7 @@ class DealController extends Controller
         try {
             return $this->service->delete($id);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
         }
     }
 
@@ -83,7 +83,7 @@ class DealController extends Controller
         try {
             return new DealResource($this->service->changeStage($id, $request->validated('stage')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeStage: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeStage: ' . $e->getMessage()], 422);
         }
     }
 
@@ -92,7 +92,7 @@ class DealController extends Controller
         try {
             return new DealResource($this->service->changeAmount($id, $request->validated('amount')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeAmount: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeAmount: ' . $e->getMessage()], 422);
         }
     }
 }

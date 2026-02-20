@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\UserRegisteredEvent;
 use App\Repository\Eloquent\Interfaces\UserRepositoryInterface;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class UserService
         unset($data['role']);
         $user = $this->users->create($data);
         $user->assignRole($role);
+        event(new UserRegisteredEvent($user));
 
         return $user;
     }

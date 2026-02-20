@@ -27,7 +27,7 @@ class ClientController extends Controller
         try {
             return new ClientResource($this->service->create($request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
         }
     }
 
@@ -36,7 +36,7 @@ class ClientController extends Controller
         try {
             return new ClientResource($this->service->findByEmail($request->validated('email')));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 404);
         }
     }
 
@@ -45,7 +45,7 @@ class ClientController extends Controller
         try {
             return new ClientResource($this->service->update($id, $request->validated()));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
         }
     }
 
@@ -54,7 +54,7 @@ class ClientController extends Controller
         try {
             return $this->service->delete($id);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
         }
     }
 
@@ -63,7 +63,7 @@ class ClientController extends Controller
         try {
             return $this->service->forceDelete($id);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'forceDelete: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'forceDelete: ' . $e->getMessage()], 404);
         }
     }
 
@@ -72,7 +72,7 @@ class ClientController extends Controller
         try {
             return new ClientResource($this->service->changeManager($clientId, $managerId));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'changeManager: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'changeManager: ' . $e->getMessage()], 422);
         }
     }
 }

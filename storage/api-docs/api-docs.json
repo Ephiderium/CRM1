@@ -1,0 +1,2400 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "CRM1 API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/client/index": {
+            "get": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Список клиентов",
+                "operationId": "15219952ddecc6cc905fd2cdf0825145",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Client"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/client/": {
+            "post": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Создание клиента",
+                "operationId": "e89d932fa8f76f2cf83c15123e99812d",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateClientRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Client resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/client/by-email": {
+            "get": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Поиск по email",
+                "operationId": "ab0e5cb0a96cf67d5f60ef1f61a197c0",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateClientRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Client resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/client/update/{id}": {
+            "patch": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Обновление по id",
+                "operationId": "00e48b6d65e258d996d2557759d5a371",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id клиента",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateClientRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/client/{id}": {
+            "delete": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Удаление по id",
+                "operationId": "b862611ecdbc4a06fbb975a2df5f0a13",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id клиента",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/client/force-delete/{id}": {
+            "delete": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Безвозвратное удаление по id",
+                "operationId": "0c63ce3b24e11e3bf6dd1493777864f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id клиента",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/client/manager/{id}": {
+            "patch": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Изменение менеджера по id клиента",
+                "operationId": "f0ec38e16f6655efe64efac8ad145b29",
+                "parameters": [
+                    {
+                        "name": "clientId",
+                        "in": "path",
+                        "description": "id клиента",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "managerId",
+                        "in": "path",
+                        "description": "id клиента",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/comment/index": {
+            "get": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Список комментариев",
+                "operationId": "b2fc12e929639d404b15fe50305b6448",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Comment"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/comment/{id}": {
+            "get": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Поиск по id",
+                "operationId": "aa1c887c9daa50a8a5ed40402636912a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id комментария",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Удаление по id",
+                "operationId": "16b0414b58d13abadda52c826dbf25f4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id комментария",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/comment/by-user/{id}": {
+            "get": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Поиск по id пользователя",
+                "operationId": "96198a61737fb500a9abf25ac5d16dce",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/comment/{id}/{instance}": {
+            "post": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Создание пользователя",
+                "operationId": "1f9785e606352442eccb73afec3096d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id модели",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "instance",
+                        "in": "path",
+                        "description": "имя модели. deal/client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateCommentRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Comment resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/comment/update/{id}": {
+            "patch": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Обновление по id",
+                "operationId": "0b03cea92470f214eec2378cdc64caa9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id комментерия",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateCommentRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deal/index": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Список сделок",
+                "operationId": "1ac8ceb08614d05d4009f9cb37561434",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Deal"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deal/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Поиск по id",
+                "operationId": "44a322355f0ce71e3bbdd68cc7ebd58d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deal resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Deal"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Удаление по id",
+                "operationId": "f4ad9f453c42dd6fd77192caa1e94138",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id сделки",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deal deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deal/by-manager/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Поиск по id менеджера",
+                "operationId": "84cf082bb4ac81668e8364dbc5589624",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id менеджера",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Deal"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deal/by-client/{id}": {
+            "get": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Поиск по id клиента",
+                "operationId": "45ab4214c5858dd9c4e94188178f273a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id клиента",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Deal"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deal/": {
+            "post": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Создание сделки",
+                "operationId": "7fc2a35da8565f8c3d4bc75e112e3e1e",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateDealRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Deal resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Deal"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deal/update/{id}": {
+            "patch": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Обновление по id",
+                "operationId": "35f058fd01af87a955466aae1c2ca32f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id сделки",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateDealRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Deal"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/stage/{id}'": {
+            "patch": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Изменение стадии сделки",
+                "operationId": "09e9192a3961672fe879df992d8f804d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id сделки",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateDealRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change success"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/amount/{id}'": {
+            "patch": {
+                "tags": [
+                    "deal"
+                ],
+                "summary": "Изменение суммы сделки",
+                "operationId": "457211e45d38e00df5e6fb12afa186e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id сделки",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateDealRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change success"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/export-tables": {
+            "get": {
+                "tags": [
+                    "excel"
+                ],
+                "summary": "Экспорт всех таблиц в XLSX",
+                "operationId": "b5bc5bfbe51494dbe8712bfd2aff9852",
+                "responses": {
+                    "200": {
+                        "description": "Файл Excel (.xlsx) с экспортированными таблицами",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/export-log": {
+            "get": {
+                "tags": [
+                    "excel"
+                ],
+                "summary": "Экспорт логов",
+                "operationId": "694890f20203b5312734d02097f77810",
+                "responses": {
+                    "200": {
+                        "description": "Файл Excel (.xlsx) с экспортированными логами действий",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/import-clients": {
+            "post": {
+                "tags": [
+                    "excel"
+                ],
+                "summary": "Импорт клиентов из CSV",
+                "operationId": "7560c4a367cc77779c6068df48ccbdcf",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "description": "CSV-файл с клиентами",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Вход в систему",
+                "operationId": "8135f8afd019cccc7af0ca211c522dc2",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/LoginRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Bearer токен",
+                                            "type": "string",
+                                            "example": "1|randomlongtokenhereabcdef1234567890"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "delete": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Выход из системы",
+                "operationId": "f55166818e3fd9d2f1bb619117437a4f",
+                "responses": {
+                    "200": {
+                        "description": "Sucess"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/index": {
+            "get": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Список задач",
+                "operationId": "879e5cc49ca6860eb0a21ab4f3d15cf6",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/{id}": {
+            "get": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Поиск по id",
+                "operationId": "3a0ddf904fb42f5847553f140ebdff85",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Удаление по id",
+                "operationId": "2cbf997202f0cefc89e1f275b995d3ca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/by-user/{id}": {
+            "get": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Поиск по id пользователя",
+                "operationId": "3e36b27c6afc7ff3aa4a5af86a514485",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/": {
+            "post": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Создание задачи",
+                "operationId": "e5f5de41f53bd8f384f176f2e6ff6770",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateUserRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/update/{id}": {
+            "patch": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Обновление по id",
+                "operationId": "86998812142e9a7da71ae0a69eaca07c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateTaskRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/change-dline/{id}": {
+            "patch": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Смена дедлайна по id",
+                "operationId": "b5c6f2511df7f4ba6e34f0d61c57087b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateTaskRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/status/{id}": {
+            "patch": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Смена статуса по id",
+                "operationId": "42606fe9c13d991b0b1ce8e4c07b35a4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateTaskRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/related/{id}": {
+            "patch": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Смена сущности по id",
+                "description": "Смета сущности по которой определена задача. client\\deal",
+                "operationId": "25101ce55e788d2949a34fc5b9ee2d5b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateTaskRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/task/assigned/{id}": {
+            "patch": {
+                "tags": [
+                    "task"
+                ],
+                "summary": "Смена ответственного по id задачи",
+                "description": "Смета ответственного за задачу",
+                "operationId": "fdabd4c2895917799d391afd72b37ede",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id задачи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateTaskRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/change-password": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Change password",
+                "operationId": "76ac7e45dd3e106d2284cca1169eee99",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ResetPasswordRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change success"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/disable-user": {
+            "patch": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Лишение прав",
+                "operationId": "9067e16cea659784b39ef0f64b3d12fe",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateUserRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Desable success"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/change-role": {
+            "patch": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Смена роли пользователя",
+                "operationId": "984a75a7fa8578c8814c686ee9f68bff",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ChangeRoleRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change role success"
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/index": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Список пользователей",
+                "operationId": "b275490f7e197988d85ca38eeb7cac8e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Поиск по id",
+                "operationId": "e5872d1157a1c324c1806ad3a2fb8829",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Удаление по id",
+                "operationId": "976d880c54adeccb085a8f1bd1dc78cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/by-email": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Поиск по id",
+                "operationId": "9ba7d9e9fd7ba23eb2c36db0d5f09d15",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateUserRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Создание пользователя",
+                "operationId": "faa1e9e5665314af7c7ccd0dcf907ba7",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateUserRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/update/{id}": {
+            "patch": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Обновление по id",
+                "operationId": "20ac078d83824c5db2d30e42ddbcada4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateUserRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Client": {
+                "required": [
+                    "name",
+                    "email",
+                    "phone",
+                    "company",
+                    "source",
+                    "status"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Adam"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "t@test.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+1235464333"
+                    },
+                    "company": {
+                        "type": "string",
+                        "example": "test.co"
+                    },
+                    "source": {
+                        "type": "string",
+                        "example": "call"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "new"
+                    }
+                },
+                "type": "object"
+            },
+            "Comment": {
+                "required": [
+                    "body"
+                ],
+                "properties": {
+                    "body": {
+                        "type": "string",
+                        "example": "test body comment"
+                    }
+                },
+                "type": "object"
+            },
+            "Deal": {
+                "required": [
+                    "amount",
+                    "stage",
+                    "expected_close_date"
+                ],
+                "properties": {
+                    "amount": {
+                        "type": "integer",
+                        "example": 11222
+                    },
+                    "stage": {
+                        "type": "string",
+                        "example": "new"
+                    },
+                    "expected_close_date": {
+                        "type": "string",
+                        "example": "2025-01-20"
+                    }
+                },
+                "type": "object"
+            },
+            "Task": {
+                "required": [
+                    "title",
+                    "description",
+                    "deadline",
+                    "status"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "test title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "test description"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "example": "2026-02-01"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "new"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "name",
+                    "email",
+                    "is_active"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Adam"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "t@test.com"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "ChangeRoleRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "role"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "description": "email для поиска user",
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "user@example.com"
+                                },
+                                "role": {
+                                    "description": "Доступрые роли: admin, manager, user, viewer",
+                                    "type": "string",
+                                    "example": "manager"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ClientFilterRequest": {
+                "required": false,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Adam",
+                                    "nullable": true
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "t@test.com",
+                                    "nullable": true
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+1998573422",
+                                    "nullable": true
+                                },
+                                "company": {
+                                    "type": "string",
+                                    "example": "test.co",
+                                    "nullable": true
+                                },
+                                "source": {
+                                    "description": "Из списка: advertising, call, site",
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "manager_id": {
+                                    "type": "integer",
+                                    "nullable": true
+                                },
+                                "status": {
+                                    "description": "Из списка: new, active, archived",
+                                    "type": "string",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateClientRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "emai",
+                                "phone",
+                                "company",
+                                "source",
+                                "manager_id",
+                                "status"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Adam"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "t@test.com"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+1998573422"
+                                },
+                                "company": {
+                                    "type": "string",
+                                    "example": "test.co"
+                                },
+                                "source": {
+                                    "description": "Из списка: advertising, call, site",
+                                    "type": "string"
+                                },
+                                "manager_id": {
+                                    "type": "integer"
+                                },
+                                "status": {
+                                    "description": "Из списка: new, active, archived",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateCommentRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "user_id",
+                                "body"
+                            ],
+                            "properties": {
+                                "user_id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "body": {
+                                    "type": "string",
+                                    "example": "example body comment"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateDealRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "amount",
+                                "stage",
+                                "expected_close_date"
+                            ],
+                            "properties": {
+                                "client_id": {
+                                    "type": "integer",
+                                    "example": "1",
+                                    "nullable": true
+                                },
+                                "manager_id": {
+                                    "type": "integer",
+                                    "example": "1",
+                                    "nullable": true
+                                },
+                                "amount": {
+                                    "type": "integer",
+                                    "example": "10000"
+                                },
+                                "stage": {
+                                    "description": "Из списка: new, progress, won, lost",
+                                    "type": "string",
+                                    "example": "new"
+                                },
+                                "expected_close_date": {
+                                    "type": "string",
+                                    "example": "2024-01-20"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateTaskRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "title",
+                                "description",
+                                "assigned_to",
+                                "related_type",
+                                "related_id",
+                                "due_date",
+                                "status"
+                            ],
+                            "properties": {
+                                "title": {
+                                    "type": "string",
+                                    "example": "test title"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "test description"
+                                },
+                                "assigned_to": {
+                                    "description": "Id юзера",
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "related_type": {
+                                    "description": "Из списка: client, deal",
+                                    "type": "string",
+                                    "example": "client"
+                                },
+                                "due_date": {
+                                    "description": "Deadline",
+                                    "type": "string",
+                                    "example": "2026-02-01 21-22"
+                                },
+                                "status": {
+                                    "description": "Из списка: new, progress, done, overdue",
+                                    "type": "string",
+                                    "example": "new"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateUserRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email",
+                                "password",
+                                "is_active",
+                                "role"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Adam"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "t@test.com"
+                                },
+                                "password": {
+                                    "description": "Minimum 8 symbols",
+                                    "type": "string",
+                                    "example": "test00000"
+                                },
+                                "is_active": {
+                                    "type": "boolean",
+                                    "example": "true"
+                                },
+                                "role": {
+                                    "description": "Из списка: admin, manager, user, viewer",
+                                    "type": "string",
+                                    "example": "user"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "LoginRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "t@test.com"
+                                },
+                                "password": {
+                                    "description": "Minimum 8 symbols",
+                                    "type": "string",
+                                    "example": "test00000"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ResetPasswordRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "current_password",
+                                "new_password"
+                            ],
+                            "properties": {
+                                "current_password": {
+                                    "description": "Minimum 8 symbols",
+                                    "type": "string",
+                                    "example": "test11111"
+                                },
+                                "new_password": {
+                                    "description": "Minimum 8 symbols",
+                                    "type": "string",
+                                    "example": "test00000"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateClientRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Adam",
+                                    "nullable": true
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "t@test.com",
+                                    "nullable": true
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+1998573422",
+                                    "nullable": true
+                                },
+                                "company": {
+                                    "type": "string",
+                                    "example": "test.co",
+                                    "nullable": true
+                                },
+                                "source": {
+                                    "description": "Из списка: advertising, call, site",
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "manager_id": {
+                                    "type": "integer",
+                                    "nullable": true
+                                },
+                                "status": {
+                                    "description": "Из списка: new, active, archived",
+                                    "type": "string",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateCommentRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [],
+                            "properties": {
+                                "user_id": {
+                                    "type": "integer",
+                                    "example": "1",
+                                    "nullable": true
+                                },
+                                "body": {
+                                    "type": "string",
+                                    "example": "example body comment",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateDealRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [],
+                            "properties": {
+                                "client_id": {
+                                    "type": "integer",
+                                    "example": "1",
+                                    "nullable": true
+                                },
+                                "manager_id": {
+                                    "type": "integer",
+                                    "example": "1",
+                                    "nullable": true
+                                },
+                                "amount": {
+                                    "type": "integer",
+                                    "example": "10000",
+                                    "nullable": true
+                                },
+                                "stage": {
+                                    "description": "Из списка: new, progress, won, lost",
+                                    "type": "string",
+                                    "example": "new",
+                                    "nullable": true
+                                },
+                                "expected_close_date": {
+                                    "type": "string",
+                                    "example": "2024-01-20",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateTaskRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [],
+                            "properties": {
+                                "title": {
+                                    "type": "string",
+                                    "example": "test title",
+                                    "nullable": true
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "test description",
+                                    "nullable": true
+                                },
+                                "assigned_to": {
+                                    "description": "Id юзера",
+                                    "type": "integer",
+                                    "example": "1",
+                                    "nullable": true
+                                },
+                                "related_type": {
+                                    "description": "Из списка: client, deal",
+                                    "type": "string",
+                                    "example": "client",
+                                    "nullable": true
+                                },
+                                "due_date": {
+                                    "description": "Deadline",
+                                    "type": "string",
+                                    "example": "2026-02-01 21-22",
+                                    "nullable": true
+                                },
+                                "status": {
+                                    "description": "Из списка: new, progress, done, overdue",
+                                    "type": "string",
+                                    "example": "new",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateUserRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Adam",
+                                    "nullable": true
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "t@test.com",
+                                    "nullable": true
+                                },
+                                "password": {
+                                    "description": "Minimum 8 symbols",
+                                    "type": "string",
+                                    "example": "test00000",
+                                    "nullable": true
+                                },
+                                "is_active": {
+                                    "type": "boolean",
+                                    "example": "true",
+                                    "nullable": true
+                                },
+                                "role": {
+                                    "description": "Из списка: admin, manager, user, viewer",
+                                    "type": "string",
+                                    "example": "user",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "Token",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "client",
+            "description": "client"
+        },
+        {
+            "name": "comment",
+            "description": "comment"
+        },
+        {
+            "name": "deal",
+            "description": "deal"
+        },
+        {
+            "name": "excel",
+            "description": "excel"
+        },
+        {
+            "name": "auth",
+            "description": "auth"
+        },
+        {
+            "name": "task",
+            "description": "task"
+        },
+        {
+            "name": "users",
+            "description": "users"
+        }
+    ]
+}

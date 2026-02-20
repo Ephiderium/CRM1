@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\ChangeAssigned;
 use App\Events\DealStage;
+use App\Events\TaskStatus;
+use App\Events\UserRegisteredEvent;
+use App\Listeners\AuditChangeAssigned;
 use App\Listeners\AuditDealStages;
+use App\Listeners\AuditTaskStatus;
+use App\Listeners\SendUserRegisteredNotification;
 use App\Repository\Eloquent\Interfaces\UserRepositoryInterface;
 use App\Repository\Eloquent\UserRepository;
 use Illuminate\Support\Facades\Event;
@@ -44,6 +50,18 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(
             DealStage::class,
             AuditDealStages::class,
+        );
+        Event::listen(
+            ChangeAssigned::class,
+            AuditChangeAssigned::class,
+        );
+        Event::listen(
+            TaskStatus::class,
+            AuditTaskStatus::class,
+        );
+        Event::listen(
+            UserRegisteredEvent::class,
+            SendUserRegisteredNotification::class,
         );
     }
 }
