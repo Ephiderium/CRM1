@@ -18,16 +18,16 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    public function index($request): LengthAwarePaginator
+    public function index($dto): LengthAwarePaginator
     {
         $pipeline = new ClientPipeline([
-            new CompanyFilter($request),
-            new EmailFilter($request),
-            new ManagerFilter($request),
-            new NameFilter($request),
-            new PhoneFilter($request),
-            new SourceFilter($request),
-            new StatusFilter($request),
+            new CompanyFilter($dto),
+            new EmailFilter($dto),
+            new ManagerFilter($dto),
+            new NameFilter($dto),
+            new PhoneFilter($dto),
+            new SourceFilter($dto),
+            new StatusFilter($dto),
         ]);
 
         $clients = $pipeline->apply(Client::query())->paginate(20);

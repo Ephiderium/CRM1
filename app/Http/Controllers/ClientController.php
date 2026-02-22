@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\FilterDto;
 use App\Http\Requests\ClientFilterRequest;
 use App\Http\Requests\CreateClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -16,7 +17,8 @@ class ClientController extends Controller
     public function index(ClientFilterRequest $request)
     {
         try {
-            return ClientResource::collection($this->service->index($request));
+            $dto = FilterDto::fromArray($request->validated());
+            return ClientResource::collection($this->service->index($dto));
         } catch (\Exception $e) {
             return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
         }

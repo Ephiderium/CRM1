@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PhoneFilter implements FilterInterface
 {
-    public function __construct(protected $request) {}
+    public function __construct(protected $dto) {}
 
     public function handle(Builder $builder, Closure $next): Builder
     {
-        if (is_null($this->request->validated('phone'))) {
+        if (is_null($this->dto->phone)) {
             return $next($builder);
         }
 
-        $key = $this->request->validated('phone');
+        $key = $this->dto->phone;
         $query = $builder->where('phone', $key);
 
         return $next($query);

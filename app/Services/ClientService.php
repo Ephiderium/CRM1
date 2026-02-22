@@ -15,9 +15,9 @@ class ClientService
         protected AuditObserver $obs,
     ) {}
 
-    public function index($request): LengthAwarePaginator
+    public function index($dto): LengthAwarePaginator
     {
-        return $this->clients->index($request);
+        return $this->clients->index($dto);
     }
 
     public function create(array $data)

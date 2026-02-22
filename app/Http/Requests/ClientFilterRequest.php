@@ -23,7 +23,7 @@ class ClientFilterRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|min:2',
-            'email' => 'nullable|email',
+            'email' => 'nullable|email|string',
             'phone' => 'nullable|string',
             'company' => 'nullable|string',
             'source' => 'nullable|string|in:advertising,call,site',
