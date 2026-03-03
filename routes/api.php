@@ -63,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('client')->middleware('role:admin|manager|user')->group(function () {
         Route::get('/index', [ClientController::class, 'index']);
         Route::post('/', [ClientController::class, 'store']);
+        Route::get('/{id}', [ClientController::class, 'find']);
         Route::post('/by-email', [ClientController::class, 'findByEmail']);
         Route::patch('/update/{id}', [ClientController::class, 'update']);
         Route::delete('/{id}', [ClientController::class, 'destroy']);

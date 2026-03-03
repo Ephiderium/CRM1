@@ -28,6 +28,11 @@ class ClientService
         return $model;
     }
 
+    public function find(int $id)
+    {
+        return $this->clients->findById($id);
+    }
+
     public function findByEmail(string $email)
     {
         return $this->clients->findByEmail($email);

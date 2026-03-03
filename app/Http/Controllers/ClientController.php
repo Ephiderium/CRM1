@@ -33,6 +33,15 @@ class ClientController extends Controller
         }
     }
 
+    public function find(int $id): ClientResource|JsonResponse
+    {
+        try {
+            return new ClientResource($this->service->find($id));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 404);
+        }
+    }
+
     public function findByEmail(UpdateClientRequest $request): ClientResource|JsonResponse
     {
         try {

@@ -15,9 +15,11 @@ class DealResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'amount' => $this->amount,
             'stage' => $this->stage,
             'expected_close_date' => $this->expected_close_date,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

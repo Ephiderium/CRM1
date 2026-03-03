@@ -6,15 +6,18 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginService
 {
-    public function login(array $data): string
+    public function login(array $data): array
     {
         if (!Auth::attempt($data)) {
-            return response()->json(['message' => 'Ошибка входа'])->setStatusCode(401);
+            throw new \Exception('Ошибка входа');
         }
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->createToken('default')->plainTextToken;
+        return [
+            'token' => $user->createToken('default')->plainTextToken,
+            'user' => $user
+            ];
     }
 
     public function logout(): void

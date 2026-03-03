@@ -8,91 +8,55 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function __construct(protected UserService $service) {}
 
-    public function changePassword(ResetPasswordRequest $request): bool|JsonResponse
+    public function changePassword(ResetPasswordRequest $request): bool
     {
-        try {
-            return $this->service->changePassword($request);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changePassword: ' . $e->getMessage()], 500);
-        }
+        return $this->service->changePassword($request);
     }
 
-    public function disableUser(UpdateUserRequest $request): bool|JsonResponse
+    public function disableUser(UpdateUserRequest $request): bool
     {
-        try {
-            return $this->service->disableUser($request->validated('email'));
-        } catch (\Exception $e) {
-            return response()->json(404);
-        }
+        return $this->service->disableUser($request->validated('email'));
     }
 
-    public function changeRole(ChangeRoleRequest $request): bool|JsonResponse
+    public function changeRole(ChangeRoleRequest $request): bool
     {
-        try {
-            return $this->service->changeRole($request->validated());
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeRole: ' . $e->getMessage()], 422);
-        }
+        return $this->service->changeRole($request->validated());
     }
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        try {
-            return UserResource::collection($this->service->index());
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
-        }
+        return UserResource::collection($this->service->index());
     }
 
-    public function find(int $id): UserResource|JsonResponse
+    public function find(int $id): UserResource
     {
-        try {
-            return new UserResource($this->service->findById($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
-        }
+        return new UserResource($this->service->findById($id));
     }
 
-    public function findByEmail(UpdateUserRequest $request): UserResource|JsonResponse
+    public function findByEmail(UpdateUserRequest $request): UserResource
     {
-        try {
-            return new UserResource($this->service->findByEmail($request->validated('email')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 404);
-        }
+        return new UserResource($this->service->findByEmail($request->validated('email')));
     }
 
-    public function store(CreateUserRequest $request): UserResource|JsonResponse
+    public function store(CreateUserRequest $request): UserResource
     {
-        try {
-            return new UserResource($this->service->createUser($request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(422);
-        }
+        return new UserResource($this->service->createUser($request->validated()));
     }
 
-    public function update(int $id, UpdateUserRequest $request): UserResource|JsonResponse
+    public function update(int $id, UpdateUserRequest $request): UserResource
     {
-        try {
-            return new UserResource($this->service->update($id, $request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
-        }
+        return new UserResource($this->service->update($id, $request->validated()));
     }
 
-    public function destroy(int $id): bool|JsonResponse
+    public function destroy(int $id): bool
     {
-        try {
-            return $this->service->deleteById($id);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
-        }
+        return $this->service->deleteById($id);
     }
 }

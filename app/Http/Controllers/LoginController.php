@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Services\LoginService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +17,9 @@ class LoginController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         try {
-            return response()->json(['token' => $this->service->login($request->validated())]);
+            return response()->json([
+                'token' => $this->service->login($request->validated())['token'],
+                'user' => new UserResource($this->service->login($request->validated())['user'])]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'error login: ' . $e->getMessage()], 422);
         }
