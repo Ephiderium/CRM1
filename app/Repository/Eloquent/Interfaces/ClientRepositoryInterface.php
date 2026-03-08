@@ -2,18 +2,17 @@
 
 namespace App\Repository\Eloquent\Interfaces;
 
-use App\Models\Client;
-use App\Models\Comment;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Dto\ClientDto;
+use App\Dto\CommentDto;
 
 interface ClientRepositoryInterface
 {
-    public function index($request): LengthAwarePaginator;
-    public function create(array $data): Client;
-    public function findById(int $id): ?Client;
-    public function findByEmail(string $email): Client;
-    public function update(int $id, array$data): Client;
+    public function index($request): array;
+    public function create(array $data): ClientDto;
+    public function findById(int $id): ?ClientDto;
+    public function findByEmail(string $email): ClientDto;
+    public function update(int $id, array$data): ClientDto;
     public function delete(int $id): bool;
     public function forceDelete(int $id): bool;
-    public function createComment(int $id, array $data): ?Comment;
+    public function createComment(int $id, array $data): ?CommentDto;
 }

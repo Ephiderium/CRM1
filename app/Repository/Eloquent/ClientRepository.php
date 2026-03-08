@@ -2,6 +2,8 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Dto\ClientDto;
+use App\Dto\CommentDto;
 use App\Models\Client;
 use App\Models\Comment;
 use App\Repository\Eloquent\Interfaces\ClientRepositoryInterface;
@@ -18,7 +20,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    public function index($dto): LengthAwarePaginator
+    public function index($dto): array
     {
         $pipeline = new ClientPipeline([
             new CompanyFilter($dto),
@@ -30,33 +32,36 @@ class ClientRepository implements ClientRepositoryInterface
             new StatusFilter($dto),
         ]);
 
-        $clients = $pipeline->apply(Client::query())->paginate(20);
+        $clients = $pipeline->apply(Client::query())
+            ->get()
+            ->map(fn (Client $client) => ClientDto::fromModel($client))
+            ->all();
 
         return $clients;
     }
 
-    public function create(array $data): Client
+    public function create(array $data): ClientDto
     {
-        return Client::create($data);
+        return ClientDto::fromModel(Client::create($data));
     }
 
-    public function findById(int $id): ?Client
+    public function findById(int $id): ?ClientDto
     {
-        return Client::find($id);
+        return ClientDto::fromModel(Client::find($id));
     }
 
-    public function findByEmail(string $email): Client
+    public function findByEmail(string $email): ClientDto
     {
-        return Client::where('email', $email)->first();
+        return ClientDto::fromModel(Client::where('email', $email)->first());
     }
 
-    public function update(int $id, array $data): Client
+    public function update(int $id, array $data): ClientDto
     {
         $user = Client::find($id);
         $user->update($data);
         $user->refresh();
 
-        return $user;
+        return ClientDto::fromModel($user);
     }
 
     public function delete(int $id): bool
@@ -76,16 +81,19 @@ class ClientRepository implements ClientRepositoryInterface
         $builder = Client::query();
         $callback($builder);
 
-        return $builder->get();
+        return $builder
+            ->get()
+            ->mapInto(ClientDto::class)
+            ->all();
     }
 
-    public function createComment(int $id, array $data): ?Comment
+    public function createComment(int $id, array $data): ?CommentDto
     {
         $model = Client::find($id);
-        $model->comments()->create();
+        $model->comments()->create($data);
 
-        return Comment::where('body', $data['body'])
+        return CommentDto::fromModel(Comment::where('body', $data['body'])
             ->where('user_id', $data['user_id'])
-            ->first();
+            ->first());
     }
 }

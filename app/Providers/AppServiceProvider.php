@@ -10,6 +10,8 @@ use App\Listeners\AuditChangeAssigned;
 use App\Listeners\AuditDealStages;
 use App\Listeners\AuditTaskStatus;
 use App\Listeners\SendUserRegisteredNotification;
+use App\Models\Deal;
+use App\Observers\DealObserver;
 use App\Repository\Eloquent\Interfaces\UserRepositoryInterface;
 use App\Repository\Eloquent\UserRepository;
 use Illuminate\Support\Facades\Event;

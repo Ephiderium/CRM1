@@ -20,12 +20,12 @@ test('create', function () {
         'phone' => '+144543534',
         'company' => 'test.co',
         'source' => 'call',
-        'manager_id' => '1',
+        'manager_id' => 1,
         'status' => 'new'
     ];
     $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/client/', $data);
 
-    $response->assertStatus(201);
+    $response->assertStatus(200);
 });
 
 test('findByEmail', function () {

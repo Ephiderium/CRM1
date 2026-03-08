@@ -16,21 +16,14 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
-        try {
-            return response()->json([
-                'token' => $this->service->login($request->validated())['token'],
-                'user' => new UserResource($this->service->login($request->validated())['user'])]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'error login: ' . $e->getMessage()], 422);
-        }
+        return response()->json([
+            'token' => $this->service->login($request->validated())['token'],
+            'user' => new UserResource($this->service->login($request->validated())['user'])
+        ]);
     }
 
     public function logout()
     {
-        try {
-            $this->service->logout();
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'error logout: ' . $e->getMessage()], 500);
-        }
+        $this->service->logout();
     }
 }

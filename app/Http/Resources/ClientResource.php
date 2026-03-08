@@ -22,7 +22,7 @@ class ClientResource extends JsonResource
             'company' => $this->company,
             'source' => $this->source,
             'status' => $this->status,
-            'comments' => CommentResource::collection($this->comments),
+            // 'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

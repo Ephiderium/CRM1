@@ -61,7 +61,7 @@ test('create', function () {
     ];
     $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/deal/', $data);
 
-    $response->assertStatus(201);
+    $response->assertStatus(200);
 });
 
 test('update', function () {

@@ -17,13 +17,13 @@ class FilterDto
     public static function fromArray(array $data)
     {
         return new self(
-        name: $data['name'] ?? null,
-        email: $data['email'] ?? null,
-        phone: $data['phone'] ?? null,
-        company: $data['company'] ?? null,
-        source: $data['source'] ?? null,
-        manager_id: $data['manager_id'] ?? null,
-        status: $data['status'] ?? null,
-    );
+            name: $data['name'] ?? null,
+            email: $data['email'] ?? null,
+            phone: $data['phone'] ?? null,
+            company: $data['company'] ?? null,
+            source: $data['source'] ?? null,
+            manager_id: $data['manager_id'] ?? null,
+            status: $data['status'] ?? null,
+        );
     }
 }

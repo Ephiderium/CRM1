@@ -34,12 +34,22 @@ const routes = [
     {
         path: "/clients",
         name: "clients",
-        component: () => import("@/components/users/AllClientsView.vue")
+        component: () => import("@/components/clients/AllClientsView.vue")
     },
     {
         path: "/client/:id",
         name: "client",
-        component: () => import("@/components/users/ClientView.vue")
+        component: () => import("@/components/clients/ClientView.vue")
+    },
+    {
+        path: "/create-client/",
+        name: "create-client",
+        component: () => import("@/components/clients/CreateClientView.vue")
+    },
+    {
+        path: "/update-client/:id",
+        name: "update-client",
+        component: () => import("@/components/clients/UpdateClientView.vue")
     },
 ];
 

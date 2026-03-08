@@ -15,33 +15,21 @@ class ExcelController extends Controller
 {
     public function exportTables(): BinaryFileResponse|JsonResponse
     {
-        try {
-            return Excel::download(new ExportTables(), 'tables.xlsx');
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'error export: ' . $e->getMessage()], 500);
-        }
+        return Excel::download(new ExportTables(), 'tables.xlsx');
     }
 
     public function exportLog(): BinaryFileResponse|JsonResponse
     {
-        try {
-            return Excel::download(new ExportLog(), 'log.xlsx');
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'error export: ' . $e->getMessage()], 500);
-        }
+        return Excel::download(new ExportLog(), 'log.xlsx');
     }
 
     public function importClients(Request $request): RedirectResponse|JsonResponse
     {
-        try {
-            $request->validate([
-                'file' => 'required|mimes:xlsx,csv,xls',
-            ]);
-            Excel::import(new ClientsImport, $request->file('file'));
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,xls',
+        ]);
+        Excel::import(new ClientsImport, $request->file('file'));
 
-            return back()->with('success', 'Данные импортированы');
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'error import: ' . $e->getMessage()], 500);
-        }
+        return back()->with('success', 'Данные импортированы');
     }
 }

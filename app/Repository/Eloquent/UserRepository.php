@@ -2,25 +2,35 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Dto\UserDto;
+use App\Events\UserRegisteredEvent;
 use App\Models\User;
 use App\Repository\Eloquent\Interfaces\UserRepositoryInterface;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function create(array $data): User
+    public function create(array $data): UserDto
     {
-        return User::create($data);
+        if ($data['role']) {
+            $role = $data['role'];
+            unset($data['role']);
+        }
+
+        $model = User::create($data);
+        $model->assignRole($role);
+        event(new UserRegisteredEvent($model));
+
+        return UserDto::fromModel($model);
     }
 
-    public function findById(int $id): ?User
+    public function findById(int $id): ?UserDto
     {
-        return User::find($id);
+        return UserDto::fromModel(User::find($id));
     }
 
-    public function findByEmail(string $email): ?User
+    public function findByEmail(string $email): ?UserDto
     {
-        return User::where('email', $email)->first();
+        return UserDto::fromModel(User::where('email', $email)->first());
     }
 
     public function deleteById(int $id): bool
@@ -28,7 +38,7 @@ class UserRepository implements UserRepositoryInterface
         return User::find($id)->delete();
     }
 
-    public function update(int $id, array $data): ?User
+    public function update(int $id, array $data): ?UserDto
     {
         $user = User::find($id);
 
@@ -39,11 +49,33 @@ class UserRepository implements UserRepositoryInterface
         $user->update($data);
         $user->fresh();
 
-        return $user;
+        return UserDto::fromModel($user);
     }
 
-    public function index(): LengthAwarePaginator
+    public function index(): array
     {
-        return User::paginate(20);
+        return User::get()
+            ->map(callback: fn (User $user) => UserDto::fromModel($user))
+            ->all();
+    }
+
+    public function disableUser(string $email): bool
+    {
+        $user = User::where('email', $email)->first();
+        $user->syncRoles([]);
+        $user->syncPermissions([]);
+        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        $user->currentAccessToken()?->delete();
+        $this->update($user->id, ['is_active' => false]);
+
+        return true;
+    }
+
+    public function changeRole(array $data): bool
+    {
+        $user = User::where('email', $data['email'])->first();
+        $user->syncRoles(strtolower($data['role']));
+
+        return true;
     }
 }

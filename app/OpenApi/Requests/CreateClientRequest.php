@@ -34,15 +34,18 @@ use OpenApi\Attributes as OA;
             new OA\Property(
                 property: "source",
                 type: "string",
+                example: "call",
                 description: "Из списка: advertising, call, site",
             ),
             new OA\Property(
                 property: "manager_id",
                 type: "integer",
+                example: 1,
             ),
             new OA\Property(
                 property: "status",
                 type: "string",
+                example: "new",
                 description: "Из списка: new, active, archived",
             ),
         ]

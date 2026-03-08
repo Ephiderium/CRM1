@@ -19,7 +19,7 @@ class DealResource extends JsonResource
             'amount' => $this->amount,
             'stage' => $this->stage,
             'expected_close_date' => $this->expected_close_date,
-            'comments' => CommentResource::collection($this->comments),
+            // 'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

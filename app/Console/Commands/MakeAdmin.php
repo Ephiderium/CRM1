@@ -46,7 +46,7 @@ class MakeAdmin extends Command
         ];
         if (!$this->users->findByEmail($data['email'])) {
             $this->service->createAdmin($data);
-            $this->info("Админ " . $data['email'] . "создан!");
+            $this->info("Админ " . $data['email'] . " создан!");
             return self::SUCCESS;
         } else {
             $this->info('Админ уже создан');

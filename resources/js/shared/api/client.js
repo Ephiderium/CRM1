@@ -1,6 +1,6 @@
 import axios from './axios';
 
-export const userAPI = {
+export const clientAPI = {
     allClients() {
         return axios.get('/api/client/index');
     },

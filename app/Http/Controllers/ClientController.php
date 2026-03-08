@@ -16,74 +16,42 @@ class ClientController extends Controller
 
     public function index(ClientFilterRequest $request)
     {
-        try {
-            $dto = FilterDto::fromArray($request->validated());
-            return ClientResource::collection($this->service->index($dto));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
-        }
+        $dto = FilterDto::fromArray($request->validated());
+        return ClientResource::collection($this->service->index($dto));
     }
 
     public function store(CreateClientRequest $request): ClientResource|JsonResponse
     {
-        try {
-            return new ClientResource($this->service->create($request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
-        }
+        return new ClientResource($this->service->create($request->validated()));
     }
 
     public function find(int $id): ClientResource|JsonResponse
     {
-        try {
-            return new ClientResource($this->service->find($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 404);
-        }
+        return new ClientResource($this->service->find($id));
     }
 
     public function findByEmail(UpdateClientRequest $request): ClientResource|JsonResponse
     {
-        try {
-            return new ClientResource($this->service->findByEmail($request->validated('email')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'findByEmail: ' . $e->getMessage()], 404);
-        }
+        return new ClientResource($this->service->findByEmail($request->validated('email')));
     }
 
     public function update(int $id, UpdateClientRequest $request): ClientResource|JsonResponse
     {
-        try {
-            return new ClientResource($this->service->update($id, $request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
-        }
+        return new ClientResource($this->service->update($id, $request->validated()));
     }
 
     public function destroy(int $id): bool|JsonResponse
     {
-        try {
-            return $this->service->delete($id);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
-        }
+        return $this->service->delete($id);
     }
 
     public function forceDelete(int $id): bool|JsonResponse
     {
-        try {
-            return $this->service->forceDelete($id);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'forceDelete: ' . $e->getMessage()], 404);
-        }
+        return $this->service->forceDelete($id);
     }
 
     public function changeManager(int $clientId, int $managerId): ClientResource|JsonResponse
     {
-        try {
-            return new ClientResource($this->service->changeManager($clientId, $managerId));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeManager: ' . $e->getMessage()], 422);
-        }
+        return new ClientResource($this->service->changeManager($clientId, $managerId));
     }
 }

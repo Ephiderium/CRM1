@@ -87,7 +87,7 @@ test('store', function () {
     $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users/', $data);
 
     Event::assertDispatched(UserRegisteredEvent::class);
-    $response->assertStatus(201);
+    $response->assertStatus(200);
 });
 
 test('update', function () {

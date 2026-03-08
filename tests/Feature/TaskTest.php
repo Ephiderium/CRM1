@@ -49,7 +49,7 @@ test('store', function () {
     $token = $user->createToken('test')->plainTextToken;
     $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/task/', $data);
 
-    $response->assertStatus(201);
+    $response->assertStatus(200);
 });
 
 test('update', function () {

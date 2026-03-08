@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Permission extends Model
 {
-    protected $guarded = [];
+    protected $guarded = [
+        'created_at',
+        'updated_at'
+    ];
 
     public static function findOrCreate(string $name, string $guardName): ?Permission
     {

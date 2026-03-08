@@ -13,23 +13,18 @@ class AuditChangeAssigned
     /**
      * Create the event listener.
      */
-    // public function __construct()
-    // {
-    //     //
-    // }
 
     /**
      * Handle the event.
      */
     public function handle(object $event): void
     {
-        DB::table('audit_logs')->insert([
-            'user_id' => Auth::user()->id,
-            'action' => 'change assigned',
-            'entity_type' => Task::class,
-            'entity_id' => $event->task_id,
-            'old_values' => $event->oldValue ? json_encode($event->oldValue) : null,
-            'new_values' => $event->newValue ? json_encode($event->oldValue) : null,
-        ]);
+        $user_name = Auth::user()->name;
+        $user_id = Auth::user()->id;
+        $old = $event->oldValue ? json_encode($event->oldValue) : null;
+        $new = $event->newValue ? json_encode($event->oldValue) : null;
+        activity()->log("Change assigned in Task(id: $event->task_id) \n
+                        old assign: $old, new assign: $new \n
+                        who changed: $user_name(id: $user_id)");
     }
 }

@@ -9,17 +9,17 @@ class ExportLog implements FromCollection
 {
     public function collection()
     {
-        $log = DB::table('audit_logs')
+        $log = DB::table('activity_log')
             ->select([
                 'id',
-                'user_id',
-                'action',
-                'entity_type',
-                'entity_id',
-                'old_values',
-                'new_values',
+                'log_name',
+                'description',
+                'subject_id',
+                'subject_type',
+                'causer_id',
+                'causer_type',
+                'properties',
                 'created_at',
-
             ])
             ->orderBy('created_at', 'desc')
             ->limit(1000)
@@ -42,7 +42,7 @@ class ExportLog implements FromCollection
 
     public function map($row): array
     {
-        $modelName = match($row->entity_type) {
+        $modelName = match ($row->entity_type) {
             'App\Models\User' => 'Пользователь',
             'App\Models\Client' => 'Клиент',
             'App\Models\Deal' => 'Сделка',

@@ -2,15 +2,16 @@
 
 namespace App\Repository\Eloquent\Interfaces;
 
-use App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Dto\UserDto;
 
 interface UserRepositoryInterface
 {
-    public function index(): LengthAwarePaginator;
-    public function findById(int $id): ?User;
-    public function findByEmail(string $email): ?User;
-    public function create(array $data): User;
-    public function update(int $id, array $data): ?User;
+    public function index(): array;
+    public function findById(int $id): ?UserDto;
+    public function findByEmail(string $email): ?UserDto;
+    public function create(array $data): UserDto;
+    public function update(int $id, array $data): ?UserDto;
     public function deleteById(int $id): bool;
+    public function disableUser(string $email): bool;
+    public function changeRole(array $data): bool;
 }

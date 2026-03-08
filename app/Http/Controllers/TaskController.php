@@ -16,92 +16,52 @@ class TaskController extends Controller
 
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        try {
-            return TaskResource::collection($this->service->index());
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
-        }
+        return TaskResource::collection($this->service->index());
     }
 
     public function find(int $id): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->findById($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
-        }
+        return new TaskResource($this->service->findById($id));
     }
 
     public function findByUser(int $id): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->findByUser($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'findByUser: ' . $e->getMessage()], 404);
-        }
+        return new TaskResource($this->service->findByUser($id));
     }
 
     public function store(CreateTaskRequest $request): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->create($request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
-        }
+        return new TaskResource($this->service->create($request->validated()));
     }
 
     public function update(int $id, UpdateTaskRequest $request): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->update($id, $request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(422);
-        }
+        return new TaskResource($this->service->update($id, $request->validated()));
     }
 
     public function destroy(int $id): bool|JsonResponse
     {
-        try {
-            return $this->service->delete($id);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
-        }
+        return $this->service->delete($id);
     }
 
     public function changeDeadline(int $id, UpdateTaskRequest $request): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->changeDeadline($id, $request->validated('due_date')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeDeadline: ' . $e->getMessage()], 404);
-        }
+        return new TaskResource($this->service->changeDeadline($id, $request->validated('due_date')));
     }
 
     public function changeStatus(int $id, UpdateTaskRequest $request): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->changeStatus($id, $request->validated('status')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeStatus: ' . $e->getMessage()], 422);
-        }
+        return new TaskResource($this->service->changeStatus($id, $request->validated('status')));
     }
 
     public function changeRelated(int $id, UpdateTaskRequest $request): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service
-                ->changeRelated($id, $request->validated('related_id'), $request->validated('related_type')));
-        } catch (\Exception $e) {
-            return response()->json(422);
-        }
+        return new TaskResource($this->service
+            ->changeRelated($id, $request->validated('related_id'), $request->validated('related_type')));
     }
 
     public function changeAssigned(int $id, UpdateTaskRequest $request): TaskResource|JsonResponse
     {
-        try {
-            return new TaskResource($this->service->changeAssigned($id, $request->validated('assigned_to')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeAssigned: ' . $e->getMessage()], 422);
-        }
+        return new TaskResource($this->service->changeAssigned($id, $request->validated('assigned_to')));
     }
 }

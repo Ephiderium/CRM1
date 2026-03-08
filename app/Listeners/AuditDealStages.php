@@ -24,13 +24,13 @@ class AuditDealStages
      */
     public function handle(DealStage $event): void
     {
-        DB::table('audit_logs')->insert([
-            'user_id' => Auth::user()->id,
-            'action' => 'change deal stage',
-            'entity_type' => Deal::class,
-            'entity_id' => $event->deal_id,
-            'old_values' => $event->oldValue ? json_encode($event->oldValue) : null,
-            'new_values' => $event->newValue ? json_encode($event->oldValue) : null,
-        ]);
+        $id = $event->deal_id;
+        $user_name = Auth::user()->name;
+        $user_id = Auth::user()->id;
+        $old = $event->oldValue ? json_encode($event->oldValue) : null;
+        $new = $event->newValue ? json_encode($event->oldValue) : null;
+        activity()->log("Change deal(id: $id) stage \n
+                    who changed: $user_name (id: $user_id) \n
+                    old stage: $old, new stage: $new");
     }
 }

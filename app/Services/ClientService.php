@@ -2,50 +2,47 @@
 
 namespace App\Services;
 
-use App\Models\Client;
+use App\Dto\ClientDto;
 use App\Observers\AuditObserver;
 use App\Repository\Eloquent\ClientRepository;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class ClientService
 {
     public function __construct(
         protected ClientRepository $clients,
-        protected AuditObserver $obs,
     ) {}
 
-    public function index($dto): LengthAwarePaginator
+    public function index($dto): array
     {
         return $this->clients->index($dto);
     }
 
-    public function create(array $data)
+    public function create(array $data): ClientDto
     {
+        $data['manager_id'] = Auth::user()->id;
         $model =  $this->clients->create($data);
-        $this->obs->create($model);
 
         return $model;
     }
 
-    public function find(int $id)
+    public function find(int $id): ?ClientDto
     {
         return $this->clients->findById($id);
     }
 
-    public function findByEmail(string $email)
+    public function findByEmail(string $email): ClientDto
     {
         return $this->clients->findByEmail($email);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): ?ClientDto
     {
         if (!$this->clients->findById($id)) {
             return null;
         }
 
         $model = $this->clients->update($id, $data);
-        $this->obs->update($model);
 
         return $model;
     }
@@ -58,8 +55,6 @@ class ClientService
             return false;
         }
 
-        $this->obs->delete($model);
-
         return $this->clients->delete($id);
     }
 
@@ -71,12 +66,10 @@ class ClientService
             return false;
         }
 
-        $this->obs->forceDelete($model);
-
         return $this->clients->forceDelete($id);
     }
 
-    public function changeManager(int $clientId, int $managerId): ?Client
+    public function changeManager(int $clientId, int $managerId): ?ClientDto
     {
         $client = $this->clients->findById($clientId);
 
@@ -84,11 +77,9 @@ class ClientService
             return null;
         }
 
-        if (!$client->update(['manager_id' => $managerId])) {
+        if (!app(UserService::class)->findById($managerId)) {
             return null;
         }
-
-        $this->obs->update($client);
 
         return $client;
     }

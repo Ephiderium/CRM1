@@ -24,13 +24,13 @@ class AuditTaskStatus
      */
     public function handle(TaskStatus $event): void
     {
-        DB::table('audit_logs')->insert([
-            'user_id' => Auth::user()->id,
-            'action' => 'change task status',
-            'entity_type' => Task::class,
-            'entity_id' => $event->task_id,
-            'old_values' => $event->oldValue ? json_encode($event->oldValue) : null,
-            'new_values' => $event->newValue ? json_encode($event->oldValue) : null,
-        ]);
+        $id = $event->task_id;
+        $user_name = Auth::user()->name;
+        $user_id = Auth::user()->id;
+        $old = $event->oldValue ? json_encode($event->oldValue) : null;
+        $new = $event->newValue ? json_encode($event->oldValue) : null;
+        activity()->log(description: "Change status Task(id: $id)\n
+                    who changed: $user_name (id: $user_id) \n
+                    old stage: $old, new stage: $new");
     }
 }

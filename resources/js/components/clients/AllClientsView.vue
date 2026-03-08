@@ -6,11 +6,12 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const clientStore = useClientStore();
-const goToClient = () => {
-    router.push('/client/' + clientStore.client.id)
-}
+const goToClient = (id) => {
+    router.push("/client/" + id);
+};
 const client = computed(() => clientStore.client);
 const clients = computed(() => clientStore.clients);
+const email = ref('');
 
 onMounted(async () => {
     await clientStore.allClients();
@@ -18,48 +19,64 @@ onMounted(async () => {
 </script>
 
 <template>
-    <form @submit.prevent="findByEmail">
+    <div>
+        <form @submit.prevent="findByEmail">
             <input v-model="email" type="text" placeholder="Поиск по email" />
             <button type="submit">Поиск</button>
         </form>
         <button @click="router.push({ name: 'create-client' })">
             Создать клиента
         </button>
-        <div v-if="user">
+        <div v-if="client">
             <div
                 style="
                     border: 1px solid black;
                     cursor: pointer;
                     margin-bottom: 10px;
                 "
-                @click="goToUser(user.id)"
+                @click="goToClient(client.id)"
             >
-                <span>{{ user.name }}</span
+                <span>{{ client.name }}</span
                 ><br />
-                <span>{{ user.email }}</span>
+                <span>{{ client.email }}</span
+                ><br />
+                <span>{{ client.phone }}</span
+                ><br />
+                <span>{{ client.company }}</span
+                ><br />
+                <span>{{ client.source }}</span
+                ><br />
+                <span>{{ client.status }}</span
+                ><br />
+                <!-- Когда будут коменты -->
+                <button>Комментарии</button>
             </div>
         </div>
-        <div v-if="users" v-for="user in users" :key="user.id">
+        <div v-if="clients" v-for="client in clients" :key="client.id">
             <div
                 style="
                     border: 1px solid black;
                     cursor: pointer;
                     margin-bottom: 10px;
                 "
-                @click="goToUser(user.id)"
+                @click="goToClient(client.id)"
             >
-                <span>{{ user.name }}</span
+                <span>{{ client.name }}</span
                 ><br />
-                <span>{{ user.email }}</span>
+                <span>{{ client.email }}</span
+                ><br />
+                <span>{{ client.phone }}</span
+                ><br />
+                <span>{{ client.company }}</span
+                ><br />
+                <span>{{ client.source }}</span
+                ><br />
+                <span>{{ client.status }}</span
+                ><br />
+                <!-- Когда будут коменты -->
+                <button>Комментарии</button>
             </div>
         </div>
     </div>
 </template>
-'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'company' => $this->company,
-            'source' => $this->source,
-            'status' => $this->status,
-            'comments' => CommentResource::collection($this->comments),
+

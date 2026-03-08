@@ -17,82 +17,46 @@ class DealController extends Controller
 
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        try {
-            return DealResource::collection($this->service->index());
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'index: ' . $e->getMessage()], 500);
-        }
+        return DealResource::collection($this->service->index());
     }
 
     public function find(int $id): DealResource|JsonResponse
     {
-        try {
-            return new DealResource($this->service->findById($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'find: ' . $e->getMessage()], 404);
-        }
+        return new DealResource($this->service->findById($id));
     }
 
     public function findByManager(int $id): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        try {
-            return DealResource::collection($this->service->findByManager($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'findByManager: ' . $e->getMessage()], 404);
-        }
+        return DealResource::collection($this->service->findByManager($id));
     }
 
     public function findByClient(int $id): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|JsonResponse
     {
-        try {
-            return DealResource::collection($this->service->findByClient($id));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'findByClient: ' . $e->getMessage()], 404);
-        }
+        return DealResource::collection($this->service->findByClient($id));
     }
 
     public function store(CreateDealRequest $request): DealResource|JsonResponse
     {
-        try {
-            return new DealResource($this->service->create($request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'store: ' . $e->getMessage()], 422);
-        }
+        return new DealResource($this->service->create($request->validated()));
     }
 
     public function update(int $id, UpdateDealRequest $request): DealResource|JsonResponse
     {
-        try {
-            return new DealResource($this->service->update($id, $request->validated()));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'update: ' . $e->getMessage()], 422);
-        }
+        return new DealResource($this->service->update($id, $request->validated()));
     }
 
     public function destroy(int $id): bool|JsonResponse
     {
-        try {
-            return $this->service->delete($id);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'destroy: ' . $e->getMessage()], 404);
-        }
+        return $this->service->delete($id);
     }
 
     public function changeStage(int $id, UpdateDealRequest $request): DealResource|JsonResponse
     {
-        try {
-            return new DealResource($this->service->changeStage($id, $request->validated('stage')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeStage: ' . $e->getMessage()], 422);
-        }
+        return new DealResource($this->service->changeStage($id, $request->validated('stage')));
     }
 
     public function changeAmount(int $id, UpdateDealRequest $request): DealResource|JsonResponse
     {
-        try {
-            return new DealResource($this->service->changeAmount($id, $request->validated('amount')));
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'changeAmount: ' . $e->getMessage()], 422);
-        }
+        return new DealResource($this->service->changeAmount($id, $request->validated('amount')));
     }
 }

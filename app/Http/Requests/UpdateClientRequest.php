@@ -24,7 +24,7 @@ class UpdateClientRequest extends FormRequest
         return [
             'name' => 'string|nullable|min:2',
             'email' => 'email|nullable',
-            'phone' => 'string|nullable|unique:clients,email',
+            'phone' => 'string|nullable',
             'company' => 'string|nullable',
             'source' => 'string|nullable,in:advertising,call,site',
             'manager_id' => 'integer|nullable|exists:users,id',
